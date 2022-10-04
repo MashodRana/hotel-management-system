@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # Custom Apps
     "user_profile",
+    "hotel_room",
 ]
 
 MIDDLEWARE = [
