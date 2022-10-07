@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Custom Apps
+    "user_profile",
+    "hotel_room",
 ]
 
 MIDDLEWARE = [
