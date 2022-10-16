@@ -323,12 +323,16 @@ button {
 
 
 /*--------------------------------------------------------------------- layout new css ---------------------------------------------------------------------*/
+.clearfix {
+     clear: both;
+}
 
 .header {
      width: 100%;
      background: transparent;
      padding: 20px 30px;
      position: absolute;
+     
 }
 
 .logo a {
