@@ -18,3 +18,13 @@ class RoomsView(View):
 def get_standard_rooms(req):
     standard_rooms = Room.objects.filter(style='standard').values()
     return JsonResponse({'standard_rooms':list(standard_rooms)})
+
+
+class RoomDetailsView(View):
+    template_name = "pages/room_details.html"
+
+    def get(self, req, *args, **kwargs):
+        room_number = 201
+        room_details = Room.objects.get(room_number=room_number)
+        
+        return render(req, self.template_name, context={"room_details":room_details})
