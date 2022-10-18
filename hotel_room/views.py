@@ -17,4 +17,19 @@ class RoomsView(View):
 @require_GET
 def get_standard_rooms(req):
     standard_rooms = Room.objects.filter(style='standard').values()
-    return JsonResponse({'standard_rooms':list(standard_rooms)})
+    return JsonResponse({'filtered_rooms':list(standard_rooms)})
+
+@require_GET
+def get_delux_rooms(req):
+    delux_rooms = Room.objects.filter(style='delux').values()
+    return JsonResponse({'filtered_rooms':list(delux_rooms)})
+
+@require_GET
+def get_suit_rooms(req):
+    filtered_rooms = Room.objects.filter(style='suit').values()
+    return JsonResponse({'filtered_rooms':list(filtered_rooms)})
+
+@require_GET
+def get_apartment_rooms(req):
+    filtered_rooms = Room.objects.filter(style='apartment').values()
+    return JsonResponse({'filtered_rooms':list(filtered_rooms)})
