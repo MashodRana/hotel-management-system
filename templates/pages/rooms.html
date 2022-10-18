@@ -8,10 +8,10 @@
     <div class="container pt-5">
         <h2>Rooms</h2>
         <ul class="d-flex justify-content-start ">
-            <li class="p-2 mr-1"><a id="standard-room" href="#">Standard</a></li>
-            <li class="p-2 mr-1"><a href="">Delux</a></li>
-            <li class="p-2 mr-1"><a href="">Suit</a></li>
-            <li class="p-2 mr-1"><a href="">Apartment</a></li>
+            <li class="p-2 mr-1" id="standard-room"><span>Standard</span></li>
+            <li class="p-2 mr-1" id="delux-room"><span>Delux</span></li>
+            <li class="p-2 mr-1"  id="suit-room"><span>Suit</span></li>
+            <li class="p-2 mr-1" id="apartment-room"><span>Apartment</span></li>
         </ul>
 
         <div>
@@ -44,21 +44,14 @@
 {% endblock content %}
 
 {% block javascript %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-    const renderStandardRooms = (resp) => {
-        const roomsElm = document.getElementById("rooms")
+    const roomsElm = document.getElementById("rooms")
 
-
-        const standardRooms = resp.standard_rooms
-        console.log('ddddd')
-        console.log(standardRooms)
-        roomsElm.innerHTML = ""
-        standardRooms.forEach((room, idx) => {
-            console.log('I am inside of for loop.............')
-            const divElm = document.createElement('div')
-            divElm.classList.add("col")
-            divElm.innerHTML = `
+    const updateRoomsElement = (filteredRooms) => {
+        let innerHtml = ""
+        filteredRooms.forEach((room, idx) => {
+            innerHtml += `
+                <div class="col">
                     <div class="card h-100">
                         <img src="..." class="card-img-top" alt="...">
                         <div class="card-body">
@@ -74,22 +67,30 @@
                             <small class="text-muted">Last updated 3 mins ago</small>
                         </div>
                     </div>
-                `
-            roomsElm.appendChild(divElm)
+                </div>
+            `
         }, null)
 
-
-
-
+        roomsElm.innerHTML = innerHtml;
     }
+    async function fetchFilteredRooms(roomType) {
+        const url = `http://127.0.0.1:8000/hms/rooms/${roomType}`;
+        const res = await fetch(url, { "method": "GET" });
+        const res_data = await res.json();
 
-    function get_standard_rooms() {
-        $.get("http://127.0.0.1:8000/hms/rooms/standard", (resp) => renderStandardRooms(resp))
+        updateRoomsElement(res_data.filtered_rooms)
     }
-
+    
 
     const standardRoomElm = document.getElementById("standard-room")
-    standardRoomElm.addEventListener('click', get_standard_rooms)
+    const deluxRoomElm = document.getElementById("delux-room")
+    const suitRoomElm = document.getElementById("suit-room")
+    const apartmentElm = document.getElementById("apartment")
+
+    standardRoomElm.addEventListener('click', ()=>fetchFilteredRooms("standard"))
+    deluxRoomElm.addEventListener('click', ()=>fetchFilteredRooms("delux"))
+    suitRoomElm.addEventListener('click', ()=>fetchFilteredRooms("suit"))
+    apartmentElm.addEventListener('click', ()=>fetchFilteredRooms("apartment"))
 
 </script>
 {% endblock javascript %}
