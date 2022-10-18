@@ -8,14 +8,14 @@
     <div class="container pt-5">
         <h2>Rooms</h2>
         <ul class="d-flex justify-content-start ">
-            <li class="p-2 mr-1"><a href="">Single</a></li>
+            <li class="p-2 mr-1"><a id="standard-room" href="#">Standard</a></li>
             <li class="p-2 mr-1"><a href="">Delux</a></li>
             <li class="p-2 mr-1"><a href="">Suit</a></li>
             <li class="p-2 mr-1"><a href="">Apartment</a></li>
         </ul>
 
         <div>
-            <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div id="rooms" class="row row-cols-1 row-cols-md-3 g-4">
                 {% for room in rooms %}
                 <div class="col">
                     <div class="card h-100">
@@ -42,3 +42,25 @@
     </div>
 </section>
 {% endblock content %}
+
+{% block javascript %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    
+    function get_standard_rooms(){
+        console.log("I am here.......")
+        $.get("http://127.0.0.1:8000/hms/rooms/standard", (res)=>{
+            console.log(res)
+        })
+    }
+
+    const renderStandardRooms = (resp) => {
+        const roomsElm = document.getElementById("rooms")
+        roomsElm
+    }
+    const standardRoomElm = document.getElementById("standard-room")
+    standardRoomElm.addEventListener('click', get_standard_rooms)
+    console.log("I am mahsod Rana...............")
+
+</script>
+{% endblock javascript %}
