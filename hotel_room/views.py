@@ -15,6 +15,6 @@ class RoomsView(View):
 
 
 @require_GET
-def get_all_single_room(req):
-    single_rooms = Room.objects.filter(style='standard').values()
-    return JsonResponse({'single_rooms':list(single_rooms)})
+def get_standard_rooms(req):
+    standard_rooms = Room.objects.filter(style='standard').values()
+    return JsonResponse({'single_rooms':list(standard_rooms)})
