@@ -2,6 +2,8 @@ from pyexpat import model
 from random import choices
 from django.db import models
 
+from user_profile.models import Person
+
 
 # Create your models here.
 class Hotel(models.Model):
@@ -15,23 +17,13 @@ class Room(models.Model):
     ROOM_STYLE = (
         ('standard', 'Standard'),
         ("delux", "Delux"),
-        ("family suite", "Family Suite"),
-        ("business suite", "Business Suite")
-    )
-    ROOM_STATUS = (
-
-        ("available", "Available"),
-        ("resersved", "Resersved"),
-        ("occupied", "Occupied"),
-        ("not available", "Not Available"),
-        ("being serviced", "Being Serviced"),
-        ("other", "Other")
+        ("family", "Family Suite"),
+        ("business", "Business Suite")
     )
 
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
     room_number = models.CharField(max_length=10, unique=True)
     style = models.CharField(max_length=20, choices=ROOM_STYLE)
-    room_status = models.CharField(max_length=30, choices=ROOM_STATUS)
     booking_price = models.IntegerField()
     is_smoking = models.BooleanField(default=False)
 
@@ -49,10 +41,12 @@ class RoomBooking(models.Model):
         ("canceled", "Canceled"),
         ("abandoned", "Abandoned"),
     )
-    reservation_number = models.CharField(max_length=20)
+    reservation_number = models.CharField(max_length=20, unique=True)
+    room = models.ForeignKey('Room', on_delete=models.CASCADE)
+    person = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
     start_date = models.DateTimeField()
     duration_in_days = models.SmallIntegerField()
-    status = models.CharField(max_length=50, choices=BOOKING_STATUS)
+    booking_status = models.CharField(max_length=50, choices=BOOKING_STATUS)
     check_in = models.DateTimeField()
     check_out = models.DateTimeField()
     
