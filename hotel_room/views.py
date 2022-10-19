@@ -27,7 +27,8 @@ class RoomDetailsView(View):
     )
 
     def get(self, req, *args, **kwargs):
-        room_number = 201
+        room_number = req.GET.get('roomNumber', None)
+        print(room_number)
         room_details = Room.objects.get(room_number=room_number)
         
         return render(req, self.template_name, context={"room_details":room_details})
