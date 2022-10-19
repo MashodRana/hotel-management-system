@@ -13,11 +13,19 @@ class RoomsView(View):
         rooms = Room.objects.all()
         return render(req, self.template_name, context={'rooms':rooms})
 
+class RoomDetailsView(View):
+    template_name = "pages/room_details.html"
 
+    def get(self, req, *args, **kwargs):
+        room_number = 201
+        room_details = Room.objects.get(room_number=room_number)
+        
+        return render(req, self.template_name, context={"room_details":room_details})
+       
 @require_GET
 def get_standard_rooms(req):
-    standard_rooms = Room.objects.filter(style='standard').values()
-    return JsonResponse({'filtered_rooms':list(standard_rooms)})
+    filtered_rooms = Room.objects.filter(style='standard').values()
+    return JsonResponse({'filtered_rooms':list(filtered_rooms)})
 
 @require_GET
 def get_delux_rooms(req):
@@ -33,3 +41,4 @@ def get_suit_rooms(req):
 def get_apartment_rooms(req):
     filtered_rooms = Room.objects.filter(style='apartment').values()
     return JsonResponse({'filtered_rooms':list(filtered_rooms)})
+
