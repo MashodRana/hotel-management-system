@@ -10,8 +10,8 @@
         <ul class="d-flex justify-content-start ">
             <li class="p-2 mr-1" id="standard-room"><span>Standard</span></li>
             <li class="p-2 mr-1" id="delux-room"><span>Delux</span></li>
-            <li class="p-2 mr-1"  id="suit-room"><span>Suit</span></li>
-            <li class="p-2 mr-1" id="apartment-room"><span>Apartment</span></li>
+            <li class="p-2 mr-1"  id="family-suit"><span>Family Suit</span></li>
+            <li class="p-2 mr-1" id="business-suit"><span>Business Suit</span></li>
         </ul>
 
         <div>
@@ -84,13 +84,13 @@
 
     const standardRoomElm = document.getElementById("standard-room")
     const deluxRoomElm = document.getElementById("delux-room")
-    const suitRoomElm = document.getElementById("suit-room")
-    const apartmentElm = document.getElementById("apartment")
+    const familySuitElm = document.getElementById("family-suit")
+    const businessSuitElm = document.getElementById("business-suit")
 
     standardRoomElm.addEventListener('click', ()=>fetchFilteredRooms("standard"))
     deluxRoomElm.addEventListener('click', ()=>fetchFilteredRooms("delux"))
-    suitRoomElm.addEventListener('click', ()=>fetchFilteredRooms("suit"))
-    apartmentElm.addEventListener('click', ()=>fetchFilteredRooms("apartment"))
+    familySuitElm.addEventListener('click', ()=>fetchFilteredRooms("family"))
+    businessSuitElm.addEventListener('click', ()=>fetchFilteredRooms("business"))
 
 </script>
 {% endblock javascript %}

@@ -43,12 +43,12 @@ def get_delux_rooms(req):
     return JsonResponse({'filtered_rooms':list(delux_rooms)})
 
 @require_GET
-def get_suit_rooms(req):
-    filtered_rooms = Room.objects.filter(style='suit').values()
+def get_family_suit(req):
+    filtered_rooms = Room.objects.filter(style='family').values()
     return JsonResponse({'filtered_rooms':list(filtered_rooms)})
 
 @require_GET
-def get_apartment_rooms(req):
-    filtered_rooms = Room.objects.filter(style='apartment').values()
+def get_business_suit(req):
+    filtered_rooms = Room.objects.filter(style='business').values()
     return JsonResponse({'filtered_rooms':list(filtered_rooms)})
 
