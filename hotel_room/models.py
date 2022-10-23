@@ -26,6 +26,10 @@ class Room(models.Model):
     style = models.CharField(max_length=20, choices=ROOM_STYLE)
     booking_price = models.IntegerField()
     is_smoking = models.BooleanField(default=False)
+    is_wifi = models.BooleanField(default=False)
+    is_ac = models.BooleanField(default=False)
+    is_balcony = models.BooleanField(default=False)
+    is_tv = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.room_number
@@ -41,12 +45,12 @@ class RoomBooking(models.Model):
         ("canceled", "Canceled"),
         ("abandoned", "Abandoned"),
     )
-    reservation_number = models.CharField(max_length=20, unique=True)
+    reservation_number = models.CharField(max_length=20)
     room = models.ForeignKey('Room', on_delete=models.CASCADE)
     person = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
-    start_date = models.DateTimeField()
-    duration_in_days = models.SmallIntegerField()
+    start_date = models.DateField()
+    end_date = models.DateField()
     booking_status = models.CharField(max_length=50, choices=BOOKING_STATUS)
-    check_in = models.DateTimeField()
-    check_out = models.DateTimeField()
+    check_in = models.DateTimeField(blank=True, null=True)
+    check_out = models.DateTimeField(blank=True, null=True)
     

@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views import View
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_POST
+import json
+from datetime import date, time, datetime
 
-from .models import Room
+from .models import Room, RoomBooking
 
 # Create your views here.
 class RoomsView(View):
@@ -52,4 +54,21 @@ def get_family_suit(req):
 def get_business_suit(req):
     filtered_rooms = Room.objects.filter(style='business').values()
     return JsonResponse({'filtered_rooms':list(filtered_rooms)})
+
+@require_POST
+def check_room_availability(req):
+    data = json.loads(req.body)
+    print(data)
+    checkin_datetime = datetime.strptime(data['checkInDate'], "%Y-%m-%d").date()
+    checkout_datetime = datetime.strptime(data['checkOutDate'], "%Y-%m-%d").date()
+
+    filtered_room_booking = RoomBooking.objects.filter(room__room_number=data['roomNumber'], end_date__gt=checkin_datetime).values()
+    print(filtered_room_booking)
+    print(checkin_datetime)
+    print(checkout_datetime)
+    response = {'is_available': True}
+    if filtered_room_booking:
+        response["is_available"] = False
+
+    return JsonResponse(response)
 

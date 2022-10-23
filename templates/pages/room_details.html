@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="container">
-            <div class="row">
+            <div class="row my-2">
                 <div class="col">
                     <h4 class="h3">Detail Information</h4>
                     <p class="h6 font-weight-bold">Room No: <span>{{room_details.room_number}}</span></p>
@@ -72,38 +72,101 @@
                         explicabo nostrum nesciunt.</p>
                 </div>
             </div>
-            <div class="row">
+            <div class="row my-2">
                 <div class="col-6">
                     <h3>ADD SERVICE</h3>
-                    <ul>
-                        <li>Room Cleaning</li>
-                        <li>Laundry</li>
-                        <li>Breakfast</li>
+                    <div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                            <label class="custom-control-label" for="customCheck1">Cleaning<span
+                                    class="font-weight-bold text-dark">(5 $)</span></label>
+                        </div>
 
-                    </ul>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="customCheck2">
+                            <label class="custom-control-label" for="customCheck2">Laundry<span
+                                    class="font-weight-bold text-dark">(5 $)</span></label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="customCheck3">
+                            <label class="custom-control-label" for="customCheck3">Breakfast<span
+                                    class="font-weight-bold text-dark">(5 $)</span></label>
+                        </div>
+
+                    </div>
                 </div>
                 <div class="col-6">
                     <h3>AVAILABILTIY</h3>
                     <div>
-                        <p>Check IN Date: </p>
-                        <p>Check out date</p>
-                        <button>Check</button>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Check In</span>
+                            </div>
+                            <input id="checkIn" type="date" class="form-control" aria-label="Default"
+                                aria-describedby="inputGroup-sizing-default">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span  class="input-group-text" id="inputGroup-sizing-default">Check
+                                    Out</span>
+                            </div>
+                            <input id="checkOut" type="date" class="form-control" aria-label="Default"
+                                aria-describedby="inputGroup-sizing-default">
+                        </div>
+                        <button id="checkButton" type="button" class="btn btn-primary">Check</button>
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row my-2">
                 <div class="col-6">
                     <h1 class="text-lg">Total Cost: 6000 $</h1>
                 </div>
                 <div class="col-6">
-                    <button>Add to List</button>
-                    <button>Book Now</button>
+                    <button type="button" class="btn btn-info">Add to List</button>
+                    <button type="button" class="btn btn-warning">Book Now</button>
                 </div>
             </div>
         </div>
+        {% csrf_token %}
     </div>
 </section>
 {% endblock content %}
 
 {% block javascript %}
+<script>
+    const checkInElm = document.getElementById("checkIn");
+    const checkOutElm = document.getElementById("checkOut");
+    const checkButtonElm = document.getElementById("checkButton");
+
+    const url = `http://127.0.0.1:8000/hms/rooms/details/availability`;
+    console.log('I am here', typeof document.cookie)
+    const csrfToken = document.cookie.split('=')[1]
+    console.log(csrfToken)
+    checkButtonElm.addEventListener('click', async() => {
+        const checkInDate = checkInElm.value;
+        const checkOutDate = checkOutElm.value;
+        const roomNumber = "{{room_details.room_number}}"
+        const data = {checkInDate, checkOutDate, roomNumber}
+ 
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify(data)
+        });
+
+        const parsedRes = await res.json();
+        if(parsedRes["is_available"]){
+            alert("The requested room is available.")
+        }
+        else{
+            alert("Sorry, The requested room is not available.")
+        }
+
+        console.log(parsedRes);
+    })
+</script>
 {% endblock javascript %}
