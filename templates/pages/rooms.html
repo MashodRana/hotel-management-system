@@ -8,10 +8,10 @@
     <div class="container pt-5">
         <h2>Rooms</h2>
         <ul class="d-flex justify-content-start ">
-            <li class="p-2 mr-1" id="standard-room"><span>Standard</span></li>
-            <li class="p-2 mr-1" id="delux-room"><span>Delux</span></li>
-            <li class="p-2 mr-1"  id="suit-room"><span>Suit</span></li>
-            <li class="p-2 mr-1" id="apartment-room"><span>Apartment</span></li>
+            <li class="p-2 mr-1" id="standard-room"><span style="cursor: pointer;" >Standard</span></li>
+            <li class="p-2 mr-1" id="delux-room"><span style="cursor: pointer;">Delux</span></li>
+            <li class="p-2 mr-1" id="family-suit"><span style="cursor: pointer;">Family Suit</span></li>
+            <li class="p-2 mr-1" id="business-suit"><span style="cursor: pointer;">Business Suit</span></li>
         </ul>
 
         <div>
@@ -30,7 +30,7 @@
                             <li class="list-group-item">Price: {{room.booking_price}}</li>
                         </ul>
                         <div class="card-footer">
-                            <small class="text-muted">Last updated 3 mins ago</small>
+                            <small class="text-muted"><a href="{% url 'room_details' %}?roomNumber={{room.room_number}}">DETAILS</a></small>
                         </div>
                     </div>
                 </div>
@@ -60,11 +60,10 @@
                                 additional content. This content is a little bit longer.</p>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Status: ${room.room_status}</li>
                             <li class="list-group-item">Price: ${room.booking_price}</li>
                         </ul>
                         <div class="card-footer">
-                            <small class="text-muted">Last updated 3 mins ago</small>
+                            <small class="text-muted"><a href="{% url 'room_details' %}?roomNumber=${room.room_number}">DETAILS</a></small>
                         </div>
                     </div>
                 </div>
@@ -80,17 +79,17 @@
 
         updateRoomsElement(res_data.filtered_rooms)
     }
-    
+
 
     const standardRoomElm = document.getElementById("standard-room")
     const deluxRoomElm = document.getElementById("delux-room")
-    const suitRoomElm = document.getElementById("suit-room")
-    const apartmentElm = document.getElementById("apartment")
+    const familySuitElm = document.getElementById("family-suit")
+    const businessSuitElm = document.getElementById("business-suit")
 
-    standardRoomElm.addEventListener('click', ()=>fetchFilteredRooms("standard"))
-    deluxRoomElm.addEventListener('click', ()=>fetchFilteredRooms("delux"))
-    suitRoomElm.addEventListener('click', ()=>fetchFilteredRooms("suit"))
-    apartmentElm.addEventListener('click', ()=>fetchFilteredRooms("apartment"))
+    standardRoomElm.addEventListener('click', () => fetchFilteredRooms("standard"))
+    deluxRoomElm.addEventListener('click', () => fetchFilteredRooms("delux"))
+    familySuitElm.addEventListener('click', () => fetchFilteredRooms("family"))
+    businessSuitElm.addEventListener('click', () => fetchFilteredRooms("business"))
 
 </script>
 {% endblock javascript %}
