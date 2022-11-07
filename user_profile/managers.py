@@ -14,17 +14,13 @@ class CustomUserManager(BaseUserManager):
         return user
     
     def create_superuser(self, email, password, **other_fields):
-        ('admin','Admin'),
-        ( 'manager', 'Manager'),
-        ( 'receptionist' ,'Receptionist'),
-        ( 'guest' ,'Guest'),
-        ( 'stuff','Stuff')
         other_fields.setdefault("is_admin", True)
         other_fields.setdefault("is_manager", True)
         other_fields.setdefault("is_receptionist", True)
         other_fields.setdefault("is_guest", True)
-        other_fields.setdefault("is_stuff", True)
+        other_fields.setdefault("is_staff", True)
         other_fields.setdefault("is_active", True)
+        other_fields.setdefault('is_superuser', True)
 
         if other_fields.get('is_admin') is not True:
             raise ValueError(_('Admin must have is_admin=True.'))
@@ -34,8 +30,8 @@ class CustomUserManager(BaseUserManager):
             raise ValueError(_('Admin must have is_receptionist=True.'))
         if other_fields.get('is_guest') is not True:
             raise ValueError(_('Admin must have is_guest=True.'))
-        if other_fields.get('is_stuff') is not True:
-            raise ValueError(_('Admin must have is_stuff=True.'))
+        if other_fields.get('is_staff') is not True:
+            raise ValueError(_('Admin must have is_staff=True.'))
 
         user = self.create_user(email, password, **other_fields)
 
