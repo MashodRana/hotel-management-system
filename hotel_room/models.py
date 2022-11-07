@@ -1,5 +1,7 @@
+from email.policy import default
 from pyexpat import model
 from random import choices
+from unittest.util import _MAX_LENGTH
 from django.db import models
 
 from user_profile.models import Person
@@ -32,7 +34,7 @@ class Room(models.Model):
     is_tv = models.BooleanField(default=False)
 
     def __str__(self) -> str:
-        return self.room_number
+        return f"{self.room_number} {self.style}"
     
 
 class RoomBooking(models.Model):
@@ -53,4 +55,9 @@ class RoomBooking(models.Model):
     booking_status = models.CharField(max_length=50, choices=BOOKING_STATUS)
     check_in = models.DateTimeField(blank=True, null=True)
     check_out = models.DateTimeField(blank=True, null=True)
+    room_cleaning = models.BooleanField(default=False)
+    laundry = models.BooleanField(default=False)
+    breakfast = models.BooleanField(default=False)
+
+
     
