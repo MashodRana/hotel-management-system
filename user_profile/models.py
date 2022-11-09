@@ -15,7 +15,7 @@ class Person(models.Model):
     )
     
     name = models.CharField(max_length=64)
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     phone = models.CharField(max_length=16)
     account_type = models.CharField(max_length=20, choices=ACCOUNT_TYPES)
 
