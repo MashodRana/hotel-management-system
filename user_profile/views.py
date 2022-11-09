@@ -31,10 +31,9 @@ class RegisterView(View):
                 is_receptionist = self.person_role['receptionist'],
                 is_guest = self.person_role['guest'],
                 is_staff = self.person_role['staff'],
-                password= form.cleaned_data.get("password"),
                 person=person
             )
+            account.set_password(form.cleaned_data.get("password"))
             account.save()
-
             return redirect('home')
         
