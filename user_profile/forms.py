@@ -20,7 +20,6 @@ class CustomUserChangeForm(UserChangeForm):
 
 class PersonForm(forms.ModelForm):
     password = forms.CharField(max_length=12, widget=forms.PasswordInput())
-    password_conf = forms.CharField(max_length=12, widget=forms.PasswordInput())
     class Meta:
         model = Person
         fields = '__all__'
