@@ -8,6 +8,7 @@ from user_profile.forms import PersonForm, AccountForm
 # Create your views here.
 class RegisterView(View):
     template_name = 'user/register.html'
+    __homepage_url_name = 'home'
     person_role = {
         'admin':False,
         'manager': False,
@@ -36,7 +37,7 @@ class RegisterView(View):
             )
             account.set_password(form.cleaned_data.get("password"))
             account.save()
-            return redirect('home')
+            return redirect(self.__homepage_url_name)
 
 
 class LoginView(View):
