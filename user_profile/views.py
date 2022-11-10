@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 
 from user_profile.models import Person, Account
 from user_profile.forms import PersonForm, AccountForm
@@ -61,8 +61,17 @@ class LoginView(View):
         print("*"*75)
         user = authenticate(request, username=email, password=password)
         if user is not None:
-            print(user)
+            login(request, user)
+            return redirect(self.__homepage_url_name)
         else:
             print("Authentication failed")
+            return render(request, self.__template_name, context={'form':AccountForm(), 'error_msg': "Login failed!"})
+
+
+class LogoutView(View):
+    __homepage_url_name = 'home'
+
+    def get(self, request, *args, **kwargs):
+        """ Loged out the user """
+        logout(request)
         return redirect(self.__homepage_url_name)
-        
