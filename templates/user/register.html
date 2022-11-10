@@ -1,5 +1,13 @@
-<form action = "{% url 'user_profile:registration' %}" method = "post">
-    {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="Submit">
-</form>
+{% extends 'common/base.html' %}
+{% block content %}
+<section>
+    <div class="container pt-5">
+        <h2>Please Log in to the system</h2>
+        <form action="{% url 'user_profile:registration' %}" method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button class="btn btn-primary" type="submit">Login</button>
+        </form>
+    </div>
+</section>
+{% endblock content %}
