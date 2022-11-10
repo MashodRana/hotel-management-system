@@ -23,3 +23,9 @@ class PersonForm(forms.ModelForm):
     class Meta:
         model = Person
         fields = '__all__'
+
+
+class AccountForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        fields = ['email', 'password']

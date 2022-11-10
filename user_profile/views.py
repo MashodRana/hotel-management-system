@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from user_profile.models import Person, Account
-from user_profile.forms import PersonForm
+from user_profile.forms import PersonForm, AccountForm
+
 
 # Create your views here.
 class RegisterView(View):
@@ -36,4 +37,22 @@ class RegisterView(View):
             account.set_password(form.cleaned_data.get("password"))
             account.save()
             return redirect('home')
+
+
+class LoginView(View):
+    __template_name = 'user/login.html'
+    __homepage_url_name = 'home'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            # User already logged in
+            return redirect(self.__homepage_template)
+        
+        # User not logged in
+        return render(request, self.__template_name, context={'form':AccountForm()})
+    
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+
+        return redirect(self.__homepage_url_name)
         
