@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
+from django.contrib.auth import login, authenticate
 
 from user_profile.models import Person, Account
 from user_profile.forms import PersonForm, AccountForm
@@ -47,13 +48,21 @@ class LoginView(View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             # User already logged in
-            return redirect(self.__homepage_template)
+            return redirect(self.__homepage_url_name)
         
         # User not logged in
         return render(request, self.__template_name, context={'form':AccountForm()})
     
     def post(self, request, *args, **kwargs):
         print(request.POST)
-
+        account_form = AccountForm(request.POST)
+        email = request.POST['email']
+        password = request.POST['password']
+        print("*"*75)
+        user = authenticate(request, username=email, password=password)
+        if user is not None:
+            print(user)
+        else:
+            print("Authentication failed")
         return redirect(self.__homepage_url_name)
         

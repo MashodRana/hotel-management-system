@@ -26,6 +26,8 @@ class PersonForm(forms.ModelForm):
 
 
 class AccountForm(forms.ModelForm):
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput())
     class Meta:
         model = Account
         fields = ['email', 'password']
