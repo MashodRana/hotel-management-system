@@ -108,7 +108,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span  class="input-group-text" id="inputGroup-sizing-default">Check
+                                <span class="input-group-text" id="inputGroup-sizing-default">Check
                                     Out</span>
                             </div>
                             <input id="checkOut" type="date" class="form-control" aria-label="Default"
@@ -143,30 +143,40 @@
     console.log('I am here', typeof document.cookie)
     const csrfToken = document.cookie.split('=')[1]
     console.log(csrfToken)
-    checkButtonElm.addEventListener('click', async() => {
+    checkButtonElm.addEventListener('click', async () => {
         const checkInDate = checkInElm.value;
         const checkOutDate = checkOutElm.value;
         const roomNumber = "{{room_details.room_number}}"
-        const data = {checkInDate, checkOutDate, roomNumber}
- 
+        const data = { checkInDate, checkOutDate, roomNumber }
+
         const res = await fetch(url, {
             method: 'POST',
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json',
             },
-            body:JSON.stringify(data)
+            body: JSON.stringify(data)
         });
 
         const parsedRes = await res.json();
-        if(parsedRes["is_available"]){
+        if (parsedRes["is_available"]) {
             alert("The requested room is available.")
         }
-        else{
+        else {
             alert("Sorry, The requested room is not available.")
         }
 
         console.log(parsedRes);
     })
+
+    const url2 = `http://127.0.0.1:8000/hms/room-booking/add-to-wishlist/`;
+    const r = fetch(url2, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrfToken,
+            'Content-Type': 'application/json',
+        },
+    })
+
 </script>
 {% endblock javascript %}
