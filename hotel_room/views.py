@@ -5,7 +5,8 @@ from django.views.decorators.http import require_GET, require_POST
 import json
 from datetime import date, time, datetime
 
-from .models import Room, RoomBooking
+from .models import Room 
+from room_booking.models import RoomBooking
 
 # Create your views here.
 class RoomsView(View):
