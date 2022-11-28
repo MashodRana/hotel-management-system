@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('hms/home/', include('root_app.urls',)),
     path('hms/rooms/', include('hotel_room.urls')),
+    path('hms/user/', include(('user_profile.urls', 'user_profile'))),
 ]

@@ -1,4 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.utils.translation import ugettext_lazy as _
+
+from user_profile.managers import CustomUserManager
 
 
 class Person(models.Model):
@@ -7,11 +11,11 @@ class Person(models.Model):
         ( 'manager', 'Manager'),
         ( 'receptionist' ,'Receptionist'),
         ( 'guest' ,'Guest'),
-        ( 'stuff','Stuff')
+        ( 'staff','staff')
     )
     
     name = models.CharField(max_length=64)
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     phone = models.CharField(max_length=16)
     account_type = models.CharField(max_length=20, choices=ACCOUNT_TYPES)
 
@@ -29,11 +33,21 @@ class Address(models.Model):
         return f"{self.person.name}, {self.city}, {self.country}"
 
 
-class Account(models.Model):
-    password = models.CharField(max_length=16)
-    status = models.BooleanField(default=True)
-    person = models.OneToOneField(Person, on_delete=models.CASCADE)
+class Account(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(_("email address"), unique=True)
+    is_admin = models.BooleanField(default=False)
+    is_manager = models.BooleanField(default=False)
+    is_receptionist = models.BooleanField(default=False)
+    is_guest = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    person = models.OneToOneField(Person, on_delete=models.CASCADE, null=True, blank=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = CustomUserManager()
 
     def __str__(self) -> str:
-        return self.person.name
+        return self.email
 
