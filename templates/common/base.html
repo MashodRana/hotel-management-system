@@ -22,6 +22,8 @@
    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
       media="screen">
+   <!-- Font Awsome -->
+   <script src="https://kit.fontawesome.com/0f42c19b3f.js" crossorigin="anonymous"></script>
 </head>
 
 <body class="main-layout">
@@ -66,6 +68,10 @@
                            </li>
                         </ul>
                         {% if user.is_authenticated %}
+                        <span>
+                           <i class="fa-solid fa-user"></i>
+                           {{user.person.name}}
+                        </span>
                         <div class="sign_btn"><a href="{% url 'user_profile:logout' %}">Sign out</a></div>
                         {% else %}
                         <div class="sign_btn"><a href="{% url 'user_profile:login' %}">Sign in</a></div>
