@@ -5,7 +5,7 @@ from user_profile.models import Person
 from hotel_room.models import Room
 
 # Create your models here.
-class RoomBooking(models.Model):
+class Booking(models.Model):
     BOOKING_STATUS = (
         ("requested", "Requested"),
         ("pending", "Pending"),
