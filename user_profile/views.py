@@ -39,6 +39,8 @@ class RegisterView(View):
             account.set_password(form.cleaned_data.get("password"))
             account.save()
             return redirect(self.__homepage_url_name)
+        else:
+            return render(request, self.template_name, context={'form':form})
 
 
 class LoginView(View):
@@ -54,17 +56,14 @@ class LoginView(View):
         return render(request, self.__template_name, context={'form':AccountForm()})
     
     def post(self, request, *args, **kwargs):
-        print(request.POST)
         account_form = AccountForm(request.POST)
         email = request.POST['email']
         password = request.POST['password']
-        print("*"*75)
         user = authenticate(request, username=email, password=password)
         if user is not None:
             login(request, user)
             return redirect(self.__homepage_url_name)
         else:
-            print("Authentication failed")
             return render(request, self.__template_name, context={'form':AccountForm(), 'error_msg': "Login failed!"})
 
 
