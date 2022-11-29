@@ -78,7 +78,6 @@
                     <div>
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="customCheck1">
-                            <input type="checkbox" name="" id="isCleaning">
                             <label class="custom-control-label" for="customCheck1">Cleaning<span
                                     class="font-weight-bold text-dark">(5 $)</span></label>
                         </div>
@@ -123,7 +122,7 @@
                 <div class="col-6">
                     <!-- <h1 class="text-lg">Total Cost: 6000 $</h1> -->
                     <label class="text-lg" for="">Total Cost: </label>
-                    <input class="text-lg" id="totalCost" type="number" readonly value="600"/>
+                    <input class="text-lg" id="totalCost" type="number" readonly value="600" />
                 </div>
                 <div class="col-6">
                     <!-- <form action="{%url 'add_to_wishlist'%}" method="post">
@@ -142,6 +141,7 @@
 
 {% block javascript %}
 <script>
+    const roomPrice = parseFloat("{{room_details.booking_price}}")
     const checkInElm = document.getElementById("checkIn");
     const checkOutElm = document.getElementById("checkOut");
     const checkButtonElm = document.getElementById("checkButton");
@@ -175,26 +175,34 @@
 
         console.log(parsedRes);
     })
-    const totalCost = document.getElementById('totalCost')
-    function calculateTotalCost(amount){
-        
+    let totalCost = 0
+    const isCleaningElm = document.getElementById('customCheck1')
+    const isLaundryElm = document.getElementById('customCheck2')
+    const isBreakfastElm = document.getElementById('customCheck3')
+    const totalCostElm = document.getElementById('totalCost')
 
+    function calculateTotalCost() {
+        totalCost = roomPrice
+        totalCost += isCleaningElm.checked ? 5 : 0
+        totalCost += isLaundryElm.checked ? 5.5 : 0
+        totalCost += isBreakfastElm.checked ? 5 : 0
+
+        totalCostElm.value = totalCost
     }
+    isCleaningElm.addEventListener('click', calculateTotalCost)
+    isLaundryElm.addEventListener('click', calculateTotalCost)
+    isBreakfastElm.addEventListener('click', calculateTotalCost)
 
     const addToListBtn = document.getElementById('add-to-list')
-    const isCleaning = document.getElementById('customCheck1').addEventListener('click')
-    const isLaundry = document.getElementById('customCheck2').checked
-    const isBreakfast = document.getElementById('customCheck3').checked
-    addToListBtn.addEventListener('click', async ()=>{
-        const isCleaning = document.getElementById('customCheck1').checked
-        const isLaundry = document.getElementById('customCheck2').checked
-        const isBreakfast = document.getElementById('customCheck3').checked
-        const totalCost = parseInt(document.getElementById('totalCost').value)
+    addToListBtn.addEventListener('click', async () => {
         const data = {
-            isCleaning,
-            isLaundry,
-            isBreakfast,
-            totalCost
+            "isCleaning": isCleaningElm.checked,
+            "isLaundry": isLaundryElm.checked,
+            "isBreakfast": isBreakfastElm.checked,
+            "totalCost": parseFloat(totalCostElm.value),
+            "checkInDate": checkInElm.value,
+            "checkOutDate": checkOutElm.value,
+            "roomNumber": "{{room_details.room_number}}"
         }
         const url2 = `http://127.0.0.1:8000/hms/room-booking/add-to-wishlist/`;
         const res = await fetch(url2, {
@@ -203,18 +211,19 @@
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json',
             },
+            body: JSON.stringify(data)
         })
 
         if (res.redirected) {
             window.location.href = res.url;
         }
-        else{
+        else {
             const json_res = await res.json()
             alert(json_res.msg)
         }
 
     })
-    
+
 
 </script>
 {% endblock javascript %}

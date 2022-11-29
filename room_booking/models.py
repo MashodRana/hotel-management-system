@@ -28,10 +28,8 @@ class Booking(models.Model):
     breakfast = models.BooleanField(default=False)
 
 class WishList(models.Model):
-    person = models.ForeignKey(Person, on_delete=models.CASCADE)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    start_date = models.DateField(null=True)
-    end_date = models.DateField(null=True)
+    person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='person')
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='room')
     check_in = models.DateTimeField(blank=True, null=True)
     check_out = models.DateTimeField(blank=True, null=True)
     room_cleaning = models.BooleanField(default=False)
