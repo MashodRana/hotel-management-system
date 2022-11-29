@@ -123,7 +123,11 @@
                     <h1 class="text-lg">Total Cost: 6000 $</h1>
                 </div>
                 <div class="col-6">
-                    <button type="button" class="btn btn-info">Add to List</button>
+                    <!-- <form action="{%url 'add_to_wishlist'%}" method="post">
+                        {%csrf_token%}
+                        <button type="submit" class="btn btn-info">Add to List</button>
+                    </form> -->
+                    <button id="add-to-list" type="button" class="btn btn-info">Add to List</button>
                     <button type="button" class="btn btn-warning">Book Now</button>
                 </div>
             </div>
@@ -169,14 +173,28 @@
         console.log(parsedRes);
     })
 
-    const url2 = `http://127.0.0.1:8000/hms/room-booking/add-to-wishlist/`;
-    const r = fetch(url2, {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': csrfToken,
-            'Content-Type': 'application/json',
-        },
+    const addToListBtn = document.getElementById('add-to-list')
+    addToListBtn.addEventListener('click', async ()=>{
+        
+        const url2 = `http://127.0.0.1:8000/hms/room-booking/add-to-wishlist/`;
+        const res = await fetch(url2, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json',
+            },
+        })
+
+        if (res.redirected) {
+            window.location.href = res.url;
+        }
+        else{
+            const json_res = await res.json()
+            alert(json_res.msg)
+        }
+
     })
+    
 
 </script>
 {% endblock javascript %}
