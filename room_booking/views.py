@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -54,6 +54,9 @@ class WishListView(LoginRequiredMixin, View):
         }
         return render(request=request, template_name=self.__template_name, context=context)
     
+
+class DeleteWishListItemView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
-        pass
+        WishList.objects.filter(pk=kwargs['id']).delete()
+        return redirect("wishlist")
     
