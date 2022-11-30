@@ -41,7 +41,18 @@ class WishListView(LoginRequiredMixin, View):
     __template_name = 'room_booking/wishlist.html'
 
     def get(self, request, *args, **kwargs):
-        return render(request=request, template_name=self.__template_name)
+        items = WishList.objects.all()
+
+        # Calculate total cost
+        total_amount = 0
+        for item in items:
+            total_amount+=item.total_price
+        
+        context = {
+            'items': items,
+            'total_amount': total_amount
+        }
+        return render(request=request, template_name=self.__template_name, context=context)
     
     def post(self, request, *args, **kwargs):
         pass
