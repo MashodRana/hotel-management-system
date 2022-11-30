@@ -11,7 +11,7 @@ from hotel_room.models import Room
 
 
 # Create your views here.
-class WishListView(LoginRequiredMixin, View):
+class AddToWishListView(LoginRequiredMixin, View):
     __template_name = 'room_booking/wishlist.html'
 
     def post(self, request, *args, **kwargs):
@@ -35,3 +35,14 @@ class WishListView(LoginRequiredMixin, View):
         return JsonResponse({"msg": "Added to wish list."})
     def get(self, request, *args, **kwargs):
         pass
+
+
+class WishListView(LoginRequiredMixin, View):
+    __template_name = 'room_booking/wishlist.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request=request, template_name=self.__template_name)
+    
+    def post(self, request, *args, **kwargs):
+        pass
+    
