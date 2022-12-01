@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from user_profile.models import Person, Account
-from user_profile.forms import PersonForm, AccountForm
+from user_profile.forms import PersonForm, AccountForm, AddressForm, ProfileForm
 
 
 # Create your views here.
@@ -74,3 +75,37 @@ class LogoutView(View):
         """ Loged out the user """
         logout(request)
         return redirect(self.__homepage_url_name)
+
+
+class ProfileView(LoginRequiredMixin, View):
+    __template_name = 'user/profile.html'
+
+    def get(self, request, *args, **kwargs):
+        
+        person = Person.objects.get(email=request.user.email)
+        try:
+            address_form = AddressForm(instance=person.address)
+        except Exception as e:
+            address_form = AddressForm()
+        person_form = PersonForm(instance=person)
+        print(address_form.__dict__)
+        data = {
+            'name': person.name,
+            'email': person.email,
+            'phone': person.phone,
+            'account_type': person.account_type,
+            'city': address_form.cleaned_data['city'] or None,
+            'country': address_form.cleaned_data['country'] or None,
+            'zip_code': address_form.cleaned_data['zip_code'] or None
+        }
+        print(data)
+        context = {
+            'person_form': person_form,
+            'address_form': address_form
+        }
+
+        return render(request=request, template_name=self.__template_name, context=context)
+
+
+    def post(self, request, *args, **kwargs):
+        pass

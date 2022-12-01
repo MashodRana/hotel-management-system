@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
 
-from user_profile.models import Account, Person
+from user_profile.models import Account, Person, Address
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -31,3 +31,18 @@ class AccountForm(forms.ModelForm):
     class Meta:
         model = Account
         fields = ['email', 'password']
+
+
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = '__all__'
+
+class ProfileForm(forms.Form):
+    name = forms.CharField(max_length=64)
+    email = forms.EmailField()
+    phone = forms.CharField(max_length=16)
+    account_type = forms.CharField(max_length=20, disabled=True)
+    city = forms.CharField(max_length=50)
+    country = forms.CharField(max_length=50)
+    zip_code = forms.IntegerField()
