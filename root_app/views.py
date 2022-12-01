@@ -7,5 +7,4 @@ from django.http import HttpResponse
 class HomeView(View):
     template_name = 'pages/home_page.html'
     def get(self, request, *args, **kwargs):
-        
         return render(request, self.template_name, context={"name":"mashod"})

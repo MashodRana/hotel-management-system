@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # Custom Apps
     "user_profile",
     "hotel_room",
+    "room_booking",
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,7 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'user_profile.Account'
+
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+LOGIN_URL = '/hms/user/login/'

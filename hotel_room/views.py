@@ -5,7 +5,8 @@ from django.views.decorators.http import require_GET, require_POST
 import json
 from datetime import date, time, datetime
 
-from .models import Room, RoomBooking
+from .models import Room 
+from room_booking.models import Booking
 
 # Create your views here.
 class RoomsView(View):
@@ -62,7 +63,7 @@ def check_room_availability(req):
     checkin_datetime = datetime.strptime(data['checkInDate'], "%Y-%m-%d").date()
     checkout_datetime = datetime.strptime(data['checkOutDate'], "%Y-%m-%d").date()
 
-    filtered_room_booking = RoomBooking.objects.filter(room__room_number=data['roomNumber'], end_date__gt=checkin_datetime).values()
+    filtered_room_booking = Booking.objects.filter(room__room_number=data['roomNumber'], end_date__gt=checkin_datetime).values()
     print(filtered_room_booking)
     print(checkin_datetime)
     print(checkout_datetime)

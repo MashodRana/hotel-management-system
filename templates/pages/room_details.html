@@ -108,7 +108,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span  class="input-group-text" id="inputGroup-sizing-default">Check
+                                <span class="input-group-text" id="inputGroup-sizing-default">Check
                                     Out</span>
                             </div>
                             <input id="checkOut" type="date" class="form-control" aria-label="Default"
@@ -120,10 +120,16 @@
             </div>
             <div class="row my-2">
                 <div class="col-6">
-                    <h1 class="text-lg">Total Cost: 6000 $</h1>
+                    <!-- <h1 class="text-lg">Total Cost: 6000 $</h1> -->
+                    <label class="text-lg" for="">Total Cost: </label>
+                    <input class="text-lg" id="totalCost" type="number" readonly value="600" />
                 </div>
                 <div class="col-6">
-                    <button type="button" class="btn btn-info">Add to List</button>
+                    <!-- <form action="{%url 'add_to_wishlist'%}" method="post">
+                        {%csrf_token%}
+                        <button type="submit" class="btn btn-info">Add to List</button>
+                    </form> -->
+                    <button id="add-to-list" type="button" class="btn btn-info">Add to List</button>
                     <button type="button" class="btn btn-warning">Book Now</button>
                 </div>
             </div>
@@ -135,6 +141,7 @@
 
 {% block javascript %}
 <script>
+    const roomPrice = parseFloat("{{room_details.booking_price}}")
     const checkInElm = document.getElementById("checkIn");
     const checkOutElm = document.getElementById("checkOut");
     const checkButtonElm = document.getElementById("checkButton");
@@ -143,30 +150,80 @@
     console.log('I am here', typeof document.cookie)
     const csrfToken = document.cookie.split('=')[1]
     console.log(csrfToken)
-    checkButtonElm.addEventListener('click', async() => {
+    checkButtonElm.addEventListener('click', async () => {
         const checkInDate = checkInElm.value;
         const checkOutDate = checkOutElm.value;
         const roomNumber = "{{room_details.room_number}}"
-        const data = {checkInDate, checkOutDate, roomNumber}
- 
+        const data = { checkInDate, checkOutDate, roomNumber }
+
         const res = await fetch(url, {
             method: 'POST',
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json',
             },
-            body:JSON.stringify(data)
+            body: JSON.stringify(data)
         });
 
         const parsedRes = await res.json();
-        if(parsedRes["is_available"]){
+        if (parsedRes["is_available"]) {
             alert("The requested room is available.")
         }
-        else{
+        else {
             alert("Sorry, The requested room is not available.")
         }
 
         console.log(parsedRes);
     })
+    let totalCost = 0
+    const isCleaningElm = document.getElementById('customCheck1')
+    const isLaundryElm = document.getElementById('customCheck2')
+    const isBreakfastElm = document.getElementById('customCheck3')
+    const totalCostElm = document.getElementById('totalCost')
+
+    function calculateTotalCost() {
+        totalCost = roomPrice
+        totalCost += isCleaningElm.checked ? 5 : 0
+        totalCost += isLaundryElm.checked ? 5.5 : 0
+        totalCost += isBreakfastElm.checked ? 5 : 0
+
+        totalCostElm.value = totalCost
+    }
+    isCleaningElm.addEventListener('click', calculateTotalCost)
+    isLaundryElm.addEventListener('click', calculateTotalCost)
+    isBreakfastElm.addEventListener('click', calculateTotalCost)
+
+    const addToListBtn = document.getElementById('add-to-list')
+    addToListBtn.addEventListener('click', async () => {
+        const data = {
+            "isCleaning": isCleaningElm.checked,
+            "isLaundry": isLaundryElm.checked,
+            "isBreakfast": isBreakfastElm.checked,
+            "totalCost": parseFloat(totalCostElm.value),
+            "checkInDate": checkInElm.value,
+            "checkOutDate": checkOutElm.value,
+            "roomNumber": "{{room_details.room_number}}"
+        }
+        const url2 = `http://127.0.0.1:8000/hms/room-booking/add-to-wishlist/`;
+        const res = await fetch(url2, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+
+        if (res.redirected) {
+            window.location.href = res.url;
+        }
+        else {
+            const json_res = await res.json()
+            alert(json_res.msg)
+        }
+
+    })
+
+
 </script>
 {% endblock javascript %}
