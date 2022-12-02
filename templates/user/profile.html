@@ -3,58 +3,81 @@
 {% block content %}
 <main class="container my-5">
     <h2>Profile Summary</h2>
+    <hr>
     <div class="row">
+        {% if error_msg %}
         <div class="col-7">
+            <div class="alert alert-danger" role="alert">
+                {{error_msg}}
+            </div>
+        </div>
+        {% endif %}
+        <div class="col-7">
+
             <form method="post" action="{% url 'user_profile:profile' %}">
                 {%csrf_token%}
                 <div class="form-group">
-                    <label for="id_name">Name</label>
-                    <input required type="text" class="form-control" id="id_name" name="name" value="{{person.name}}">
+                    <label for="id_{{person_form.name.name}}">Name</label>
+                    <input required type="text" class="form-control" id="id_{{person_form.name.name}}"
+                        name="{{person_form.name.name}}" value="{{person_form.name.value}}">
                     <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
                         else.</small> -->
                 </div>
                 <div class="form-group">
-                    <label for="id_email">Email address</label>
-                    <input required name="email" id="id_email" type="email" class="form-control" value="{{person.email}}">
+                    <label for="id_{{person_form.email.name}}">Email address</label>
+                    <input required name="email" id="id_{{person_form.email.name}}" type="email" class="form-control"
+                        value="{{person_form.email.value}}">
+                        {% if person_form.email.errors %}
+                        <small id="emailHelp" class="form-text text-muted">
+                            {{person_form.email.errors}}
+                        </small>
+                        {% endif %}
+                    <!--  -->
+                </div>
+                <div class="form-group">
+                    <label for="id_{{person_form.phone.name}}">Phone Number</label>
+                    <input required name="phone" id="id_{{person_form.phone.name}}" type="tel" class="form-control"
+                        value="{{person_form.phone.value}}">
                     <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
                         else.</small> -->
                 </div>
                 <div class="form-group">
-                    <label for="id_phone">Phone Number</label>
-                    <input required name="phone" id="id_phone" type="tel" class="form-control" value="{{person.phone}}">
+                    <label for="id_{{person_form.account_type.name}}">Account Type</label>
+                    <input required readonly name="account_type" id="id_{{person_form.account_type.name}}" type="text"
+                        class="form-control" value="{{person_form.account_type.value}}">
                     <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
                         else.</small> -->
                 </div>
                 <div class="form-group">
-                    <label for="id_account_type">Account Type</label>
-                    <input required readonly name="account_type" id="id_account_type" type="text" class="form-control" value="{{person.account_type}}">
+                    <label for="id_{{address_form.city.name}}">City</label>
+                    <input required name="{{address_form.city.name}}" id="id_{{address_form.city.name}}" type="text"
+                        class="form-control" {% if address_form.city.value %} value="{{address_form.city.value}}"
+                        {%endif%}>
                     <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
                         else.</small> -->
                 </div>
                 <div class="form-group">
-                    <label for="id_city">City</label>
-                    <input required name="city" id="id_city" type="text" class="form-control" value="{{person.address.city}}">
+                    <label for="id_{{address_form.country.name}}">Country</label>
+                    <input required name="{{address_form.country.name}}" id="id_country" type="text"
+                        class="form-control" {% if address_form.city.value %} value="{{address_form.country.value}}"
+                        {%endif%}>
                     <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
                         else.</small> -->
                 </div>
                 <div class="form-group">
-                    <label for="id_country">Country</label>
-                    <input required name="country" id="id_country" type="text" class="form-control" value="{{person.address.country}}">
-                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
-                        else.</small> -->
-                </div>
-                <div class="form-group">
-                    <label for="id_zip_code">Zip Code</label>
-                    <input required name="zip_code" id="id_zip_code" type="text" class="form-control" value="{{person.address.zip_code}}">
+                    <label for="id_{{address_form.zip_code.name}}">Zip Code</label>
+                    <input required name="{{address_form.zip_code.name}}" id="id_{{address_form.zip_code.name}}"
+                        type="text" class="form-control" {% if address_form.city.value %}
+                        value="{{address_form.zip_code.value}}" {%endif%}>
                     <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
                         else.</small> -->
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="id_password">Password</label>
                     <input readonly type="password" name="password" class="form-control" id="id_password" value="{{person.password}}">
-                </div>
-                
+                </div> -->
+
                 <button type="submit" class="btn btn-success">Update</button>
             </form>
         </div>
