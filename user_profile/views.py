@@ -86,7 +86,6 @@ class ProfileView(LoginRequiredMixin, View):
         context = {
             'person': person
         }
-
         return render(request=request, template_name=self.__template_name, context=context)
 
 
