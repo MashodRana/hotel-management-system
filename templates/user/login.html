@@ -1,13 +1,34 @@
 {% extends 'common/base.html' %}
 {% block content %}
-<section>
-    <div class="container pt-5">
-        <h2>Please Log in to the system</h2>
-        <form action="{% url 'user_profile:login' %}" method="post">
-            {% csrf_token %}
-            {{form.as_p}}
-            <button  class="btn btn-primary" type="submit">Login</button>
-        </form>
-    </div>
-</section>
+<main>
+    <section>
+        <div class="container pt-5">
+            <h2>Please Log in to the system</h2>
+            <form action="{% url 'user_profile:login' %}" method="post">
+                {% csrf_token %}
+                {% if error_msg %}
+                <div class="alert alert-danger" role="alert">
+                    {{error_msg}}
+                </div>
+                {% endif %}
+                <div class="form-group">
+                    <label for="id_{{person_form.email.name}}">Email address</label>
+                    <input required type="email" name="{{person_form.email.name}}" class="form-control"
+                        id="id_{{person_form.email.name}}" aria-describedby="emailHelp" {% if person_form.email.value%}
+                        value="{{person_form.email.value}}" {%endif%} placeholder="Enter email">
+                    {{person_form.email.errors}}
+                </div>
+                <div class="form-group">
+                    <label for="id_{{account_form.password.name}}">Password</label>
+                    <input required name="{{account_form.password.name}}" type="password" class="form-control"
+                        id="id_{{account_form.password.name}}" {% if account_from.password.value %}
+                        value="{{account_form.password.value}}" {% endif %} placeholder="Password">
+                    {{account_form.password.errors}}
+                </div>
+    
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </section>
+</main>
 {% endblock content %}
