@@ -24,6 +24,12 @@ class PersonForm(forms.ModelForm):
         model = Person
         fields = ['name', 'email']
 
+class PersonForm2(forms.ModelForm):
+    # password = forms.CharField(max_length=12, widget=forms.PasswordInput())
+    class Meta:
+        model = Person
+        fields = "__all__"
+
 
 class AccountForm(forms.ModelForm):
     # email = forms.EmailField()
@@ -36,7 +42,8 @@ class AccountForm(forms.ModelForm):
 class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
-        fields = '__all__'
+        exclude = ['person']
+        
 
 class ProfileForm(forms.Form):
     name = forms.CharField(max_length=64)

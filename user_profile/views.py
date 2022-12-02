@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ObjectDoesNotExist
 
-from user_profile.models import Person, Account
-from user_profile.forms import PersonForm, AccountForm, AddressForm, ProfileForm
+from user_profile.models import Person, Account, Address
+from user_profile.forms import PersonForm, AccountForm, AddressForm, PersonForm2
 
 
 # Create your views here.
@@ -110,20 +111,47 @@ class ProfileView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         
         person = Person.objects.get(email=request.user.email)
+        person_form = PersonForm2(instance=person)
+        try:
+            address_form = AddressForm(instance=person.address)
+        except ObjectDoesNotExist:
+            address_form = AddressForm()
         context = {
-            'person': person
+            'person_form': person_form,
+            'address_form': address_form
         }
         return render(request=request, template_name=self.__template_name, context=context)
 
 
     def post(self, request, *args, **kwargs):
-        print(args)
-        print(kwargs)
-        print(request.POST)
         person = Person.objects.get(email=request.user.email)
-        person_form=PersonForm(request.POST, instance=person)
-        if person_form.is_valid():
-            print('form is valid')
-        else:
-            print(person_form.errors)
-        return None
+        person_form=PersonForm2(request.POST, instance=person)
+        is_empty_address = None
+        try:
+            address_form = AddressForm(request.POST or None, instance=person.address)
+        except ObjectDoesNotExist:
+            address_form = AddressForm(request.POST)
+            is_empty_address=True
+        
+
+        if person_form.is_valid() and address_form.is_valid():
+            if is_empty_address:
+                address = Address(
+                    city=address_form.cleaned_data['city'],
+                    country=address_form.cleaned_data['country'],
+                    zip_code=address_form.cleaned_data['zip_code'],
+                    person=person,
+                )
+                person_form.save()
+                address.save()
+            else:
+                person_form.save()
+                address_form.save()
+            return redirect('user_profile:profile')
+
+        context = {
+            'person_form': person_form,
+            'address_form': address_form,
+            'error_msg': "Changes not saved!"
+            }
+        return render(request=request, template_name=self.__template_name, context=context)
