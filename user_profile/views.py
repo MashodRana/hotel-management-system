@@ -83,25 +83,8 @@ class ProfileView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         
         person = Person.objects.get(email=request.user.email)
-        try:
-            address_form = AddressForm(instance=person.address)
-        except Exception as e:
-            address_form = AddressForm()
-        person_form = PersonForm(instance=person)
-        print(address_form.__dict__)
-        data = {
-            'name': person.name,
-            'email': person.email,
-            'phone': person.phone,
-            'account_type': person.account_type,
-            'city': address_form.cleaned_data['city'] or None,
-            'country': address_form.cleaned_data['country'] or None,
-            'zip_code': address_form.cleaned_data['zip_code'] or None
-        }
-        print(data)
         context = {
-            'person_form': person_form,
-            'address_form': address_form
+            'person': person
         }
 
         return render(request=request, template_name=self.__template_name, context=context)
