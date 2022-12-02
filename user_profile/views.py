@@ -90,4 +90,13 @@ class ProfileView(LoginRequiredMixin, View):
 
 
     def post(self, request, *args, **kwargs):
-        pass
+        print(args)
+        print(kwargs)
+        print(request.POST)
+        person = Person.objects.get(email=request.user.email)
+        person_form=PersonForm(request.POST, instance=person)
+        if person_form.is_valid():
+            print('form is valid')
+        else:
+            print(person_form.errors)
+        return None
