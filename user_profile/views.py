@@ -21,27 +21,40 @@ class RegisterView(View):
 
     def get(self, request, *args, **kwargs):
         person_form = PersonForm()
-        return render(request, self.template_name, context={'form':person_form})
+        account_form = AccountForm()
+        
+        context = {
+            'person_form': person_form,
+            'account_form': account_form
+        }
+        return render(request, self.template_name, context=context)
     
     def post(self, request, *args, **kwargs):
-        form = PersonForm(request.POST)
-        if form.is_valid():
-            person = form.save()
-            self.person_role[person.account_type] = True
+        person_form = PersonForm(request.POST)
+        account_form = AccountForm(request.POST)
+        if person_form.is_valid() and account_form.is_valid():
+            print('form is valid')
+            person = person_form.save()
+            # self.person_role[person.account_type] = True
             account = Account(
                 email=person.email,
-                is_admin = self.person_role['admin'],
-                is_manager = self.person_role['manager'],
-                is_receptionist = self.person_role['receptionist'],
-                is_guest = self.person_role['guest'],
-                is_staff = self.person_role['staff'],
+                # is_admin = self.person_role['admin'],
+                # is_manager = self.person_role['manager'],
+                # is_receptionist = self.person_role['receptionist'],
+                # is_guest = self.person_role['guest'],
+                # is_staff = self.person_role['staff'],
                 person=person
             )
-            account.set_password(form.cleaned_data.get("password"))
+            account.set_password(account_form.cleaned_data.get("password"))
             account.save()
             return redirect(self.__homepage_url_name)
         else:
-            return render(request, self.template_name, context={'form':form})
+            print("Form not valid")
+            context = {
+            'person_form': person_form,
+            'account_form': account_form
+            }
+            return render(request, self.template_name, context=context)
 
 
 class LoginView(View):
@@ -52,11 +65,18 @@ class LoginView(View):
         if request.user.is_authenticated:
             # User already logged in
             return redirect(self.__homepage_url_name)
-        
-        # User not logged in
-        return render(request, self.__template_name, context={'form':AccountForm()})
+
+         # User not logged in
+        person_form = PersonForm()
+        account_form = AccountForm()
+        context = {
+            'person_form': person_form,
+            'account_form': account_form
+        }
+        return render(request, self.__template_name, context=context)
     
     def post(self, request, *args, **kwargs):
+
         account_form = AccountForm(request.POST)
         email = request.POST['email']
         password = request.POST['password']
@@ -65,7 +85,14 @@ class LoginView(View):
             login(request, user)
             return redirect(self.__homepage_url_name)
         else:
-            return render(request, self.__template_name, context={'form':AccountForm(), 'error_msg': "Login failed!"})
+            person_form = PersonForm()
+            account_form = AccountForm()
+            context = {
+                'person_form': person_form,
+                'account_form': account_form,
+                'error_msg': "Login failed!"
+            }
+            return render(request, self.__template_name, context=context)
 
 
 class LogoutView(View):
