@@ -19,18 +19,18 @@ class CustomUserChangeForm(UserChangeForm):
 
 
 class PersonForm(forms.ModelForm):
-    password = forms.CharField(max_length=12, widget=forms.PasswordInput())
+    # password = forms.CharField(max_length=12, widget=forms.PasswordInput())
     class Meta:
         model = Person
-        fields = '__all__'
+        fields = ['name', 'email']
 
 
 class AccountForm(forms.ModelForm):
-    email = forms.EmailField()
+    # email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput())
     class Meta:
         model = Account
-        fields = ['email', 'password']
+        fields = ['password']
 
 
 class AddressForm(forms.ModelForm):
