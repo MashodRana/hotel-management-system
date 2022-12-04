@@ -59,4 +59,13 @@ class DeleteWishListItemView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         WishList.objects.filter(pk=kwargs['id']).delete()
         return redirect("wishlist")
-    
+
+
+class BookingListView(LoginRequiredMixin, View):
+    __template_name="room_booking/my_booking.html"
+
+    def get(self, request, *args, **kwargs):
+        context={
+            'title':'My Bookings'
+        }
+        return render(request=request, template_name=self.__template_name, context=context)
