@@ -5,11 +5,22 @@
     <h2 class="h2">My Bookings</h2>
     <hr>
 
+    <div class="row-col-1">
+        {% for booking in bookings %}
+        <div class="col">
+            <div class="row">
+                <div class="col-1">{{booking.reservation_number}}</div>
+                <div class="col-1">Status: <span class="small">{{booking.booking_status}}</span></div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
 </div>
 {% endblock content %}
 
 {% block javascript %}
 <script>
-    console.log("Total amount .......", '{{total_amount}}')
+    
 </script>
 {% endblock javascript %}

@@ -65,7 +65,11 @@ class BookingListView(LoginRequiredMixin, View):
     __template_name="room_booking/my_booking.html"
 
     def get(self, request, *args, **kwargs):
+        user = request.user
+        person = Person.objects.get(email=user.email)
+        bookings = Booking.objects.filter(person=person)
         context={
-            'title':'My Bookings'
+            'title':'My Bookings',
+            'bookings': bookings
         }
         return render(request=request, template_name=self.__template_name, context=context)
