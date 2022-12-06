@@ -65,6 +65,7 @@ class BookingListView(LoginRequiredMixin, View):
     __template_name="room_booking/my_booking.html"
 
     def get(self, request, *args, **kwargs):
+        # Nedd to change
         user = request.user
         person = Person.objects.get(email=user.email)
         bookings = Booking.objects.filter(person=person)
