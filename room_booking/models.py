@@ -16,7 +16,7 @@ class Booking(models.Model):
         ("abandoned", "Abandoned"),
     )
     reservation_number = models.CharField(max_length=20)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    rooms = models.ManyToManyField(Room, related_name='rooms')
     person = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
     start_date = models.DateField()
     end_date = models.DateField()
