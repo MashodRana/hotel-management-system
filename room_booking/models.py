@@ -18,14 +18,11 @@ class Booking(models.Model):
     reservation_number = models.CharField(max_length=20)
     rooms = models.ManyToManyField(Room, related_name='rooms')
     person = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
-    start_date = models.DateField()
-    end_date = models.DateField()
     booking_status = models.CharField(max_length=50, choices=BOOKING_STATUS)
-    check_in = models.DateTimeField(blank=True, null=True)
-    check_out = models.DateTimeField(blank=True, null=True)
-    room_cleaning = models.BooleanField(default=False)
-    laundry = models.BooleanField(default=False)
-    breakfast = models.BooleanField(default=False)
+
+
+    def __str__(self) -> str:
+        return self.reservation_number
 
 class WishList(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='person')

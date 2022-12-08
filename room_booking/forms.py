@@ -8,3 +8,4 @@ class WishListForm(forms.ModelForm):
         model = WishList
         exclude = ['']
 
+

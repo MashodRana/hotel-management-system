@@ -74,3 +74,7 @@ class BookingListView(LoginRequiredMixin, View):
             'bookings': bookings
         }
         return render(request=request, template_name=self.__template_name, context=context)
+
+class AddBookingView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        pass
