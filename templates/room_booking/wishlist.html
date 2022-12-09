@@ -122,6 +122,7 @@
         const decoded_res = await res.json()
         if(decoded_res.msg){
             alert(decoded_res.msg)
+            location.reload()
         }
         else{
             alert("Order placing failed!!")
