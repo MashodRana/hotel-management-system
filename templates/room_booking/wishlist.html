@@ -14,9 +14,10 @@
                     <div
                         class="d-flex flex-row justify-content-between align-items-center p-2 bg-white mt-4 px-3 rounded">
                         <div class="mr-1 d-flex align-items-center justify-content-between p-1">
-                            <input class="form-check-input" type="checkbox" value="{{item.id}}" id="defaultCheck{{item.id}}">
-                            <img class="rounded" src="https://htmldemo.net/oestin/oestin/img/room/l-1.jpg"
-                                width="70"></div>
+                            <input class="form-check-input" type="checkbox" value="{{item.id}}"
+                                id="defaultCheck{{item.id}}">
+                            <img class="rounded" src="https://htmldemo.net/oestin/oestin/img/room/l-1.jpg" width="70">
+                        </div>
                         <div class="d-flex flex-column align-items-center product-details">
                             <span class="font-weight-bold">{{item}}</span>
                             <div class="d-flex flex-row product-desc">
@@ -27,7 +28,8 @@
                             </div>
                         </div>
                         <div>
-                            <h5 class="text-grey">$ <span id="item-total-price-{{item.id}}">{{item.total_price}}</span> </h5>
+                            <h5 class="text-grey">$ <span id="item-total-price-{{item.id}}">{{item.total_price}}</span>
+                            </h5>
                         </div>
                         <div class="d-flex align-items-center"><button type="submit"><i
                                     class="fa fa-trash mb-1 text-danger"></i></button></i></div>
@@ -40,7 +42,7 @@
             <div class="row-col-1 mt-3 p-2">
                 <div class="col d-flex justify-content-end ">
                     <p class="h5 font-italic">
-                        Total Amount: <span id="total-amount" >{{total_amount}}</span>
+                        Total Amount: <span id="total-amount">{{total_amount}}</span>
                     </p>
                 </div>
             </div>
@@ -52,13 +54,15 @@
             <div class="row-col-1 mt-3 p-2">
                 <div class="col d-flex ">
                     <p class="h5 font-weight-bold">
-                        Total Amount <small>(discount applied)</small>: <span>{{total_amount}}</span>
+                        Total Amount <small>(discount applied)</small>: <span
+                            id="total-amount-ds">{{total_amount}}</span>
                     </p>
                 </div>
             </div>
 
-            <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded"><button
-                    class="btn btn-warning btn-block btn-lg ml-2 pay-button" type="button">Proceed to Pay</button></div>
+            <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded">
+                <button id="book-now" class="btn btn-warning btn-block btn-lg ml-2 pay-button" type="button">Proceed to Pay</button>
+                </div>
         </div>
     </div>
 </div>
@@ -66,20 +70,65 @@
 
 {% block javascript %}
 <script>
-    const totalAmountElm = document.getElementById('total-amount')
-    const checkBoxes = document.getElementsByTagName('input')
+    const csrfToken = document.cookie.split('=')[1]
+    const totalAmountElm = document.getElementById('total-amount');
+    const checkBoxes = document.getElementsByTagName('input');
+    const totalAmountDAElm = document.getElementById('total-amount-ds');
+    const bookNowElm = document.getElementById('book-now');
     let totalAmount = 0
-    for(const element of checkBoxes){
-        if (element.type=='checkbox'){
+    for (const element of checkBoxes) {
+        if (element.type == 'checkbox') {
             const id = parseInt(element.value)
-            console.log('yes', id)
-            element.addEventListener('click', ()=>{
-                totalAmount += parseFloat( document.getElementById(`item-total-price-${id}`).innerText)
+            element.addEventListener('change', (e) => {
+                const itemTotalPrice = parseFloat(document.getElementById(`item-total-price-${id}`).innerText)
+                if (e.target.checked) {
+                    totalAmount += itemTotalPrice;
+                } else {
+                    totalAmount -= itemTotalPrice;
+                }
+                totalAmountElm.innerText = totalAmount;
+                totalAmountDAElm.innerText = totalAmount;
+
             })
         }
     }
-    console.log(totalAmount)
+    totalAmountElm.innerText = totalAmount;
+    totalAmountDAElm.innerText = totalAmount;
 
-    totalAmountElm.text = totalAmount
+    const bookNow = async () => {
+        let data = {
+            "itemId":[] 
+        }
+        for (const element of checkBoxes) {
+            if (element.type == 'checkbox') {
+                const id = parseInt(element.value)
+                data.itemId.push(id)
+            }
+        }
+        if(data.itemId.length){
+            alert("No item seleted!!")
+            return;
+        }
+        const url = `http://127.0.0.1:8000/hms/room-booking/book-now/`;
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+            
+        })
+        const decoded_res = await res.json()
+        if(decoded_res.msg){
+            alert(decoded_res.msg)
+        }
+        else{
+            alert("Order placing failed!!")
+        }
+    }
+
+    bookNowElm.addEventListener('click', bookNow);
+
 </script>
 {% endblock javascript %}
