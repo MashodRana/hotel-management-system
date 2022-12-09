@@ -15,7 +15,7 @@ class Booking(models.Model):
         ("canceled", "Canceled"),
         ("abandoned", "Abandoned"),
     )
-    reservation_number = models.CharField(max_length=20)
+    reservation_number = models.CharField(max_length=20, unique=True)
     rooms = models.ManyToManyField(Room, related_name='rooms')
     person = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
     booking_status = models.CharField(max_length=50, choices=BOOKING_STATUS)
