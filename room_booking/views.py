@@ -59,4 +59,49 @@ class DeleteWishListItemView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         WishList.objects.filter(pk=kwargs['id']).delete()
         return redirect("wishlist")
-    
+
+
+class BookingListView(LoginRequiredMixin, View):
+    __template_name="room_booking/my_booking.html"
+
+    def get(self, request, *args, **kwargs):
+        # Nedd to change
+        user = request.user
+        person = Person.objects.get(email=user.email)
+        bookings = Booking.objects.filter(person=person)
+        context={
+            'title':'My Bookings',
+            'bookings': bookings
+        }
+        return render(request=request, template_name=self.__template_name, context=context)
+
+
+class AddBookingView(LoginRequiredMixin, View):
+    """ Add the bookings from the wishlist model to the booking list model """
+
+    def post(self, request, *args, **kwargs):
+        
+        # Get data from the request body
+        data = json.loads(request.body)
+
+        # Get the items from the wishlist table
+        items = WishList.objects.filter(pk__in=data['itemId'])
+
+        # Get the user object
+        person = Person.objects.get(email=request.user.email)
+
+        # Create a booking.
+        booking = Booking(person=person, booking_status="requested")
+        booking.save()
+        booking.reservation_number = f"{booking.pk}-{request.user.email}" # generate booking reservation number
+
+        # Add room objects in the many2many filed of booking.
+        for item in items:
+            booking.rooms.add(item.room)
+
+        booking.save() # Save the booking
+
+        # Remove bookigs from the wishlist
+        items.delete()
+
+        return JsonResponse({"msg": "You order is placed!"})
