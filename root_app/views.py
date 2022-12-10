@@ -9,8 +9,16 @@ class HomeView(View):
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, context={"name":"mashod"})
 
+
 class ContactView(View):
     template_name = 'pages/contact.html'
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, context={"title":"Conatct"})
+
+
+class AboutView(View):
+    template_name = 'pages/about.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, context={"title":"About"})
