@@ -44,7 +44,7 @@
                <li class="nav-item">
                   <a class="nav-link" href="#">Contact</a>
                </li>
-               
+
             </ul>
             <ul class="navbar-nav">
                {% if user.is_authenticated %}
@@ -81,6 +81,41 @@
    {% block javascript %}
    {% endblock javascript %}
 
+   <footer>
+      <div class="row justify-content-around">
+         <div class="col-4">
+            <div class="row">
+               <div class="col d-flex justify-content-end align-items-center">
+                  <h2><i class="fa-solid fa-phone"></i></h2>
+               </div>
+               <div class="col">
+                  <p>Have any questions?</p>
+                  <p>+880 1775 646995</p>
+               </div>
+            </div>
+
+         </div>
+         <div class="col-4">
+            <div class="row">
+               <div class="col d-flex justify-content-end align-items-center">
+                  <h2><i class="fa-solid fa-envelope"></i></h2>
+
+               </div>
+               <div class="col">
+                  <p>Have any questions?</p>
+                  <p>mrpalace@gmail.com</p>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <!-- Copyright -->
+         <div class="col d-flex justify-content-center">
+            <p>© 2022 Copyright:MR Palace</p>
+         </div>
+         <!-- Copyright -->
+      </div>
+   </footer>
    <!-- Optional JavaScript; choose one of the two! -->
 
    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
