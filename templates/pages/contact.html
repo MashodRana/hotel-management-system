@@ -1,0 +1,96 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+<main>
+    <div class="container">
+        <section class="py-lg-5 py-md-3 py-2">
+            <div class="row">
+                <div class="col text-center">
+                    <h2 class="h1"><i class="fa-solid fa-hotel"></i></h2>
+                    <h4>Office Address</h4>
+                    <p>
+                        123, Green Road <br>
+                        Dhaka-1230, Bangladesh
+                    </p>
+                </div>
+                <div class="col text-center">
+                    <h2 class="h1"><i class="fa-solid fa-square-phone"></i></h2>
+                    <h4>Phone Number</h4>
+                    <p>
+                        +880 1775 646995 <br>
+                        +880 1980 572158
+                    </p>
+                </div>
+                <div class="col text-center">
+                    <h2 class="h1"><i class="fa-solid fa-square-envelope"></i></h2>
+                    <h4>Email Address</h4>
+                    <p>
+                        mrpalace@gmail.com <br>
+                        mrplace.support@gmail.com
+                    </p>
+                </div>
+            </div>
+        </section>
+        <section class="py-lg-5 py-md-3 py-2">
+            <form action="">
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Your name" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i
+                                        class="fa-solid fa-phone"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Phone number" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i
+                                        class="fa-solid fa-envelope"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Email addres" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i
+                                        class="fa-solid fa-book"></i></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Write subject" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa-solid fa-pen"></i></span>
+                            </div>
+                            <textarea rows="10" class="form-control" placeholder="Write your message" aria-label="With textarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+
+</main>
+{% endblock content%}
