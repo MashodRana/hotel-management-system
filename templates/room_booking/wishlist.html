@@ -1,12 +1,11 @@
 {% extends 'common/base.html' %}
 
 {% block content %}
-<div class="container mt-1 mb-5">
+<div class="container mt-5 mb-5">
+    <h3 class="text-center"><span class="mr-pc font-weight-bold">Wish</span> List</h3>
+    <hr class="hr-bar mt-n2 rounded">
     <div class="d-flex justify-content-center row">
-        <div class="col-md-8">
-            <div class="p-2">
-                <h3 class="text-lg">Wish List</h3>
-            </div>
+        <div class="col-md-8 col-md-10 mx-auto p-1 p-md-5 user-login-form">
             <div>
                 {% for item in items %}
                 <form action="{% url 'delete_wishlist_item' item.pk %}" method="post">
@@ -31,8 +30,11 @@
                             <h5 class="text-grey">$ <span id="item-total-price-{{item.id}}">{{item.total_price}}</span>
                             </h5>
                         </div>
-                        <div class="d-flex align-items-center"><button type="submit"><i
-                                    class="fa fa-trash mb-1 text-danger"></i></button></i></div>
+                        <div class="d-flex align-items-center">
+                            <button type="submit" class="border-0 bg-transparent">
+                                <i class="fa fa-trash mb-1 text-danger"></i>
+                            </button>
+                        </div>
                     </div>
                 </form>
 
@@ -50,19 +52,20 @@
             </div>
             <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded"><input type="text"
                     class="form-control border-0 gift-card" placeholder="discount code/gift card"><button
-                    class="btn btn-outline-warning btn-sm ml-2" type="button">Apply</button></div>
+                    class="btn btn-sm mr-bgpc text-white ml-2" type="button">Apply</button></div>
             <div class="row-col-1 mt-3 p-2">
                 <div class="col d-flex ">
                     <p class="h5 font-weight-bold">
-                        Total Amount <small>(discount applied)</small>: <span
+                        <span class="mr-pc">Total Amount</span> <small>($)</small>: <span
                             id="total-amount-ds">{{total_amount}}</span>
                     </p>
                 </div>
             </div>
 
             <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded">
-                <button id="book-now" class="btn btn-warning btn-block btn-lg ml-2 pay-button" type="button">Proceed to Pay</button>
-                </div>
+                <button id="book-now" class="btn btn-warning btn-block btn-lg ml-2 pay-button" type="button">Proceed to
+                    Pay</button>
+            </div>
         </div>
     </div>
 </div>
@@ -97,7 +100,7 @@
 
     const bookNow = async () => {
         let data = {
-            "itemId":[] 
+            "itemId": []
         }
         for (const element of checkBoxes) {
             if (element.type == 'checkbox') {
@@ -105,7 +108,7 @@
                 data.itemId.push(id)
             }
         }
-        if(data.itemId.length==0){
+        if (data.itemId.length == 0) {
             alert("No item seleted!!")
             return;
         }
@@ -117,14 +120,14 @@
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data)
-            
+
         })
         const decoded_res = await res.json()
-        if(decoded_res.msg){
+        if (decoded_res.msg) {
             alert(decoded_res.msg)
             location.reload()
         }
-        else{
+        else {
             alert("Order placing failed!!")
         }
     }
