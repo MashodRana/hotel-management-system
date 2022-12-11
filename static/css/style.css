@@ -1,4 +1,7 @@
 
+a{
+     text-decoration: none;
+}
 .mr-pc{
      color: #296c70!important;
 }
@@ -51,4 +54,9 @@
 }
 .subscribe-section input:focus{
      border: .5px solid #296c70 !important;
+}
+
+.room-card{
+     box-shadow: rgba(0, 162, 183, 0.16) 0px 1px 4px;
+     border: none;
 }
