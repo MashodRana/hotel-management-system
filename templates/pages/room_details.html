@@ -1,10 +1,10 @@
 {% extends 'common/base.html' %}
 
 {% block content %}
-<section>
+<section id="room-details">
     <div class="container pt-5">
-        <h1 class="text-lg">Room Details</h1>
-        <div class="container">
+        <h2 class="mr-pc">Room Details</h2>
+        <div class="my-5">
             <div class="row">
                 <div class="col-8">
 
@@ -41,32 +41,40 @@
                     </div>
                 </div>
                 <div class="col-4">
-                    <h3>ROOM FACILITIES</h3>
-                    <ul>
-                        <li>Bed: 1 King Size</li>
-                        <li>View: Sea View</li>
-                        <li>Wifi: yes</li>
-                        <li>TV: yes</li>
-                        <li>Smoking:
-                            {% if room_details.is_smoking %}
-                            Yes
-                            {% else %}
-                            No
-                            {% endif %}
-                        </li>
-                        <li>Room Size: 70 sqft</li>
-                        <li>Max Occupancy: 2 Adult 1 Child</li>
-                    </ul>
-                    <h1>Price: {{room_details.booking_price}} $/night</h1>
+                    <h5>Room Facilities</h5>
+                    <div class="ml-5">
+                        <p>
+                            <span><i class="fa-solid fa-bed"></i></span> <span>1 King Size</span>
+                        </p>
+                        <p>
+                            <span><i class="fa-solid fa-eye"></i></span> <span>Sea View</span>
+                        </p>
+                        <p>
+                            <span><i class="fa-solid fa-wifi"></i></span> <span>Yes</span>
+                        </p>
+                        <p>
+                            <span><i class="fa-solid fa-tv"></i></span> <span>Yes</span>
+                        </p>
+                        <p> <span><i class="fa-solid fa-smoking"></i></span> <span>
+                                {% if room_details.is_smoking %}
+                                Yes
+                                {% else %}
+                                No
+                                {% endif %}</span>
+                        </p>
+                        <p> <span><i class="fa-solid fa-igloo"></i></span> <span>70 sqft</span></p>
+                        <p> <span><i class="fa-solid fa-person"></i></span> <span>2 Adult 1 Child</span></p>
+                    </div>
+                    <h4>Price: <span class="mr-pc">{{room_details.booking_price}}</span> $/night</h4>
                 </div>
 
             </div>
         </div>
-        <div class="container">
+        <div>
             <div class="row my-2">
                 <div class="col">
-                    <h4 class="h3">Detail Information</h4>
-                    <p class="h6 font-weight-bold">Room No: <span>{{room_details.room_number}}</span></p>
+                    <h4>Detail Information</h4>
+                    <p class="h6 font-weight-bold">Room No: <span class="mr-pc">{{room_details.room_number}}</span></p>
                     <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rerum distinctio soluta tempora sunt
                         temporibus optio quo dolore mollitia? Impedit velit quasi esse officia tempora, omnis ad animi
                         explicabo nostrum nesciunt.</p>
@@ -74,8 +82,8 @@
             </div>
             <div class="row my-2">
                 <div class="col-6">
-                    <h3>ADD SERVICE</h3>
-                    <div>
+                    <h4>Add Service</h4>
+                    <div class="ml-2">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="customCheck1">
                             <label class="custom-control-label" for="customCheck1">Cleaning<span
@@ -97,44 +105,47 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <h3>AVAILABILTIY</h3>
+                    <h4>Availability</h4>
                     <div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="inputGroup-sizing-default">Check In</span>
+                        <div class="row">
+                            <div class="col input-group mb-3">
+                                <div class="input-group-prepend ">
+                                    <span class="input-group-text border-info" id="inputGroup-sizing-default">Check
+                                        In</span>
+                                </div>
+                                <input id="checkIn" type="date" class="form-control border-info" aria-label="Default"
+                                    aria-describedby="inputGroup-sizing-default">
                             </div>
-                            <input id="checkIn" type="date" class="form-control" aria-label="Default"
-                                aria-describedby="inputGroup-sizing-default">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="inputGroup-sizing-default">Check
-                                    Out</span>
+                            <div class="col input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text border-info" id="inputGroup-sizing-default">Check
+                                        Out</span>
+                                </div>
+                                <input id="checkOut" type="date" class="form-control border-info" aria-label="Default"
+                                    aria-describedby="inputGroup-sizing-default">
                             </div>
-                            <input id="checkOut" type="date" class="form-control" aria-label="Default"
-                                aria-describedby="inputGroup-sizing-default">
                         </div>
-                        <button id="checkButton" type="button" class="btn btn-primary">Check</button>
+                        <button id="checkButton" type="button" class="btn btn-info px-5">Is Available</button>
                     </div>
                 </div>
             </div>
             <div class="row my-2">
-                <div class="col-6">
+                <div class="col-12">
                     <!-- <h1 class="text-lg">Total Cost: 6000 $</h1> -->
-                    <label class="text-lg" for="">Total Cost: </label>
-                    <input class="text-lg" id="totalCost" type="number" readonly value="600" />
+                    <label class="h4 mr-pc" for="">Total Cost ($): </label>
+                    <input class="h4 font-weight-bold border-0" id="totalCost" type="number" readonly
+                        value="{{room_details.booking_price}}" />
                 </div>
-                <div class="col-6">
-                    <!-- <form action="{%url 'add_to_wishlist'%}" method="post">
-                        {%csrf_token%}
-                        <button type="submit" class="btn btn-info">Add to List</button>
-                    </form> -->
-                    <button id="add-to-list" type="button" class="btn btn-info">Add to List</button>
-                    <button type="button" class="btn btn-warning">Book Now</button>
+                <div class="col mt-5">
+                    <button id="add-to-list" type="button" class="btn mr-bgpc text-white px-5">Add to
+                        List</button>
+                    <button type="button" class="btn mr-bgpc text-white px-5">Book Now</button>
+
                 </div>
             </div>
         </div>
-        {% csrf_token %}
+    </div>
+    {% csrf_token %}
     </div>
 </section>
 {% endblock content %}

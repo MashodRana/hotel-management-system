@@ -14,7 +14,13 @@ class RoomsView(View):
 
     def get(self, req, *args, **kwargs):
         rooms = Room.objects.all()
-        return render(req, self.template_name, context={'rooms':rooms})
+        context = {
+            'title': 'Hotel Rooms',
+            'active_nav_item': 'nav-rooms',
+            'rooms':rooms
+
+        }
+        return render(req, self.template_name, context=context)
 
 class RoomDetailsView(View):
     template_name = "pages/room_details.html"
@@ -33,8 +39,13 @@ class RoomDetailsView(View):
         room_number = req.GET.get('roomNumber', None)
         print(room_number)
         room_details = Room.objects.get(room_number=room_number)
+        context={
+            'title': 'Room Details',
+            'active_nav_item': 'nav-rooms',
+            "room_details":room_details
+        }
         
-        return render(req, self.template_name, context={"room_details":room_details})
+        return render(req, self.template_name, context=context)
        
 @require_GET
 def get_standard_rooms(req):

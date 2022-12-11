@@ -13,43 +13,45 @@
 
    <!-- For Wish List -->
    <link rel="stylesheet" href="{% static 'css/wishlist.css' %}">
+   <!-- Custom style sheet -->
+   <link rel="stylesheet" href="{% static 'css/style.css' %}">
    <!-- Font Awsome -->
    <script src="https://kit.fontawesome.com/0f42c19b3f.js" crossorigin="anonymous"></script>
 
-   <title>MR Palace</title>
+   <title>{{title}}</title>
 </head>
 
 <body>
    <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-         <a class="navbar-brand" href="#">MR Palace</a>
+      <nav class="navbar navbar-expand-lg navbar-light bg-white p-lg-5 p-md-3 p-2 mb-lg-3 mb-md-2 mb-1 navbar-shadow">
+         <a class="navbar-brand mr-pc font-weight-bolder" href="#">MR Palace</a>
          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
          </button>
 
          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-               <li class="nav-item active">
+            <ul class="navbar-nav mr-auto ml-auto">
+               <li id="nav-home" class="nav-item">
                   <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
                </li>
-               <li class="nav-item">
+               <li id="nav-rooms" class="nav-item">
                   <a class="nav-link" href="{% url 'rooms' %}">Rooms</a>
                </li>
-               <li class="nav-item">
-                  <a class="nav-link" href="#">About</a>
+               <li id="nav-about" class="nav-item">
+                  <a class="nav-link" href="{% url 'about' %}">About</a>
                </li>
-               <li class="nav-item">
-                  <a class="nav-link" href="#">Contact</a>
+               <li id="nav-contact" class="nav-item">
+                  <a class="nav-link" href="{% url 'contact' %}">Contact</a>
                </li>
-               
+
             </ul>
             <ul class="navbar-nav">
                {% if user.is_authenticated %}
-               <li class="nav-item dropdown">
+               <li id="nav-user" class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                      aria-haspopup="true" aria-expanded="false">
-                     <i class="fa-solid fa-user"></i>
+                     <i class="fa-solid fa-user mx-2"></i>
                      {{user.person.name}}
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -61,10 +63,10 @@
                   </div>
                </li>
                {% else %}
-               <li class="nav-item">
+               <li id="nav-signin" class="nav-item">
                   <a class="nav-link" href="{% url 'user_profile:login' %}">Sign in</a>
                </li>
-               <li class="nav-item">
+               <li id="nav-signup" class="nav-item">
                   <a class="nav-link " href="{% url 'user_profile:registration' %}">Sign up</a>
                </li>
                {% endif %}
@@ -79,8 +81,51 @@
    {% block javascript %}
    {% endblock javascript %}
 
-   <!-- Optional JavaScript; choose one of the two! -->
+   <footer>
+      <div class="row justify-content-around mt-5 pt-5">
+         <div class="col-4">
+            <div class="row">
+               <div class="col d-flex justify-content-end align-items-center">
+                  <h2 class="mr-pc"><i class="fa-solid fa-phone"></i></h2>
+               </div>
+               <div class="col">
+                  <p>Have any questions?</p>
+                  <p>+880 1775 646995</p>
+               </div>
+            </div>
 
+         </div>
+         <div class="col-4">
+            <div class="row">
+               <div class="col d-flex justify-content-end align-items-center">
+                  <h2 class="mr-pc"><i class="fa-solid fa-envelope"></i></h2>
+
+               </div>
+               <div class="col">
+                  <p>Have any questions?</p>
+                  <p>mrpalace@gmail.com</p>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <!-- Copyright -->
+         <div class="col d-flex justify-content-center">
+            <p>© 2022 Copyright: <span class="mr-pc font-weight-bold">MR Palace</span> </p>
+         </div>
+         <!-- Copyright -->
+      </div>
+   </footer>
+   <!-- Optional JavaScript; choose one of the two! -->
+   <script>
+      const navItems = document.getElementsByClassName('nav-item');
+      for (const navItem of navItems) {
+         navItem.classList.remove('active');
+      }
+
+      const activeNavItem = document.getElementById('{{active_nav_item}}');
+      activeNavItem.classList.add('active');
+   </script>
    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
