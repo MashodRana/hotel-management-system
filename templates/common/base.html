@@ -32,23 +32,23 @@
 
          <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto ml-auto">
-               <li class="nav-item active">
+               <li id="nav-home" class="nav-item">
                   <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
                </li>
-               <li class="nav-item">
+               <li id="nav-rooms" class="nav-item">
                   <a class="nav-link" href="{% url 'rooms' %}">Rooms</a>
                </li>
-               <li class="nav-item">
+               <li id="nav-about" class="nav-item">
                   <a class="nav-link" href="{% url 'about' %}">About</a>
                </li>
-               <li class="nav-item">
+               <li id="nav-contact" class="nav-item">
                   <a class="nav-link" href="{% url 'contact' %}">Contact</a>
                </li>
 
             </ul>
             <ul class="navbar-nav">
                {% if user.is_authenticated %}
-               <li class="nav-item dropdown">
+               <li id="nav-user" class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                      aria-haspopup="true" aria-expanded="false">
                      <i class="fa-solid fa-user mx-2"></i>
@@ -63,10 +63,10 @@
                   </div>
                </li>
                {% else %}
-               <li class="nav-item">
+               <li id="nav-signin" class="nav-item">
                   <a class="nav-link" href="{% url 'user_profile:login' %}">Sign in</a>
                </li>
-               <li class="nav-item">
+               <li id="nav-signup" class="nav-item">
                   <a class="nav-link " href="{% url 'user_profile:registration' %}">Sign up</a>
                </li>
                {% endif %}
@@ -117,7 +117,15 @@
       </div>
    </footer>
    <!-- Optional JavaScript; choose one of the two! -->
+   <script>
+      const navItems = document.getElementsByClassName('nav-item');
+      for (const navItem of navItems) {
+         navItem.classList.remove('active');
+      }
 
+      const activeNavItem = document.getElementById('{{active_nav_item}}');
+      activeNavItem.classList.add('active');
+   </script>
    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

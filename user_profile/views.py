@@ -25,6 +25,8 @@ class RegisterView(View):
         account_form = AccountForm()
         
         context = {
+            'title': 'User Registration',
+            'active_nav_item': 'nav-signup',
             'person_form': person_form,
             'account_form': account_form
         }
@@ -52,8 +54,10 @@ class RegisterView(View):
         else:
             print("Form not valid")
             context = {
-            'person_form': person_form,
-            'account_form': account_form
+                'title': 'User Registration',
+                'active_nav_item': 'nav-signup',
+                'person_form': person_form,
+                'account_form': account_form
             }
             return render(request, self.template_name, context=context)
 
@@ -71,6 +75,8 @@ class LoginView(View):
         person_form = PersonForm()
         account_form = AccountForm()
         context = {
+            'title': 'User Login',
+            'active_nav_item': 'nav-signin',
             'person_form': person_form,
             'account_form': account_form
         }
@@ -89,6 +95,8 @@ class LoginView(View):
             person_form = PersonForm()
             account_form = AccountForm()
             context = {
+                'title': 'User Login',
+                'active_nav_item': 'nav-signin',
                 'person_form': person_form,
                 'account_form': account_form,
                 'error_msg': "Login failed!"
@@ -117,6 +125,8 @@ class ProfileView(LoginRequiredMixin, View):
         except ObjectDoesNotExist:
             address_form = AddressForm()
         context = {
+            'title': 'User Profile',
+            'active_nav_item': 'nav-user',
             'person_form': person_form,
             'address_form': address_form
         }
@@ -150,8 +160,10 @@ class ProfileView(LoginRequiredMixin, View):
             return redirect('user_profile:profile')
 
         context = {
+            'title': 'User Profile',
+            'active_nav_item': 'nav-user',
             'person_form': person_form,
             'address_form': address_form,
             'error_msg': "Changes not saved!"
-            }
+        }
         return render(request=request, template_name=self.__template_name, context=context)
