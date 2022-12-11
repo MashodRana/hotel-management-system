@@ -1,3 +1,4 @@
+
 .mr-pc{
      color: #296c70!important;
 }
@@ -5,6 +6,9 @@
      background-color: #296c70!important;
 }
 
+.navbar-shadow{
+     box-shadow: rgba(0, 162, 183, 0.1) 0px 12px 10px -10px;
+}
 .hr-bar{
      width: 250px;
      color: #00a2b7;
@@ -47,8 +51,4 @@
 }
 .subscribe-section input:focus{
      border: .5px solid #296c70 !important;
-}
-
-footer{
-     box-shadow: rgba(0, 162, 183, 0.331) 0px 2px 14px 0px inset;
 }
