@@ -71,3 +71,7 @@ a{
 #contact-container #basic-addon1{
      background-color: #296c706a;
 }
+
+.user-login-form{
+     box-shadow: rgba(0, 162, 183, 0.16) 0px 1px 4px;
+}
