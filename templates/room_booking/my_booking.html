@@ -14,16 +14,16 @@
                         <div class="col">
                             <p>{{booking.room.room_number}}</p>
                         </div>
-                        <div class="col"><span class="small border rounded p-1">{{booking.booking_status}}</span></div>
+                        <div class="col"><span class="small border border-info rounded p-1">{{booking.booking_status}}</span></div>
                         <div class="col">
                             {% if booking.room_cleaning %}
-                            <span class="text-warning border rounded p-1 mt-2">Room Cleaning</span>
+                            <span class="text-warning border rounded border-info p-1 mt-2">Room Cleaning</span>
                             {%endif%}
                             {% if booking.laundry %}
-                            <span class="text-warning border rounded p-1 mt-2">Laundry</span>
+                            <span class="text-warning border rounded border-info p-1 mt-2">Laundry</span>
                             {% endif %}
                             {% if booking.breakfast %}
-                            <span class="text-warning border rounded p-1 mt-2">Breakfast</span>
+                            <span class="text-warning border rounded border-info p-1 mt-2">Breakfast</span>
                             {%endif%}
                         </div>
                     </div>
