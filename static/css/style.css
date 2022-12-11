@@ -60,3 +60,10 @@ a{
      box-shadow: rgba(0, 162, 183, 0.16) 0px 1px 4px;
      border: none;
 }
+
+
+/* Room details style */
+
+#room-details #inputGroup-sizing-default{
+     background-color: #296c706a;
+}
