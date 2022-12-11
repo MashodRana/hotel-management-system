@@ -1,3 +1,15 @@
+.mr-pc{
+     color: #296c70!important;
+}
+.mr-bgpc{
+     background-color: #296c70!important;
+}
+
+.hr-bar{
+     width: 250px;
+     color: #00a2b7;
+     border: 2px solid #00a2b7;
+}
 .custom-search-box {
      width: 900px;
      background: white;
@@ -6,13 +18,13 @@
 
 
 .custom-box-shadow {
-     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+     box-shadow: rgba(0, 162, 183, 0.16) 0px 1px 4px;
 }
 
 .user-reviews {
      height: 400px;
      border-radius: 5px;
-     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+     box-shadow: rgba(0, 162, 183, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
 }
 
 .user-review-photo {
@@ -20,6 +32,23 @@
      height: 200px;
 }
 
+.common-questions{
+     border: .5px solid #00a2b78b !important;
+     /* border-color: #00a2b7; */
+}
+
 .subscribe-section{
-     height: 250px;
+     height: 350px;
+     color: white;
+}
+.subscribe-section input{
+     color: white;
+     border: .5px solid #296c70 !important;
+}
+.subscribe-section input:focus{
+     border: .5px solid #296c70 !important;
+}
+
+footer{
+     box-shadow: rgba(0, 162, 183, 0.331) 0px 2px 14px 0px inset;
 }
