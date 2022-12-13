@@ -2,6 +2,10 @@ from http.client import HTTPResponse
 from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse
+import json
+
+from root_app.forms import SearchForm
+
 
 # Create your views here.
 class HomeView(View):
@@ -9,7 +13,8 @@ class HomeView(View):
     def get(self, request, *args, **kwargs):
         context = {
             'title': 'MR Palace',
-            'active_nav_item': 'nav-home'
+            'active_nav_item': 'nav-home',
+            'search_form': SearchForm()
         }
         return render(request, self.template_name, context=context)
 
@@ -17,11 +22,29 @@ class SearchRoomView(View):
     __template_name = 'pages/search_result.html'
 
     def get(self, request, *args, **kwargs):
-        context = {}
+        print(request.GET)
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            print("uer valid form")
+        else:
+            print('not valid form.')
+        context = {
+            'title': 'Search Result',
+            'active_nav_item': 'nav-home'
+        }
         return render(request=request, template_name=self.__template_name, context=context)
 
-    def post(request, *args, **kwargs):
-        pass
+
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+
+        print('-'*50)
+        print(kwargs)
+        data = json.loads(request.body)
+        print(data)
+        context = {}
+        return render(request=request, template_name=self.__template_name, context=context)
 
 
 class ContactView(View):
