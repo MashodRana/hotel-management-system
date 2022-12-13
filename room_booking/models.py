@@ -26,7 +26,7 @@ class Booking(models.Model):
 
 class BookingHistroy(models.Model):
     reservation_number = models.ForeignKey(Booking, on_delete=models.CASCADE)
-    room = models.OneToOneField(Room, on_delete=models.SET_NULL, null=True)
+    room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
     person = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
     check_in = models.DateTimeField(blank=True, null=True)
     check_out = models.DateTimeField(blank=True, null=True)
