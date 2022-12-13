@@ -13,6 +13,16 @@ class HomeView(View):
         }
         return render(request, self.template_name, context=context)
 
+class SearchRoomView(View):
+    __template_name = 'pages/search_result.html'
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return render(request=request, template_name=self.__template_name, context=context)
+
+    def post(request, *args, **kwargs):
+        pass
+
 
 class ContactView(View):
     template_name = 'pages/contact.html'
@@ -34,3 +44,4 @@ class AboutView(View):
             'active_nav_item': 'nav-about'
         }
         return render(request, self.template_name, context=context)
+    
