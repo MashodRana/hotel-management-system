@@ -27,24 +27,21 @@ class SearchRoomView(View):
         if form.is_valid():
             print("uer valid form")
         else:
-            print('not valid form.')
+            context = {
+                'title': 'MR Palace',
+                'active_nav_item': 'nav-home',
+                'search_form': form
+            }
+            return render(request, self.template_name, context=context)
+
         context = {
             'title': 'Search Result',
             'active_nav_item': 'nav-home'
         }
         return render(request=request, template_name=self.__template_name, context=context)
 
-
-
     def post(self, request, *args, **kwargs):
-        print(request.POST)
-
-        print('-'*50)
-        print(kwargs)
-        data = json.loads(request.body)
-        print(data)
-        context = {}
-        return render(request=request, template_name=self.__template_name, context=context)
+        pass
 
 
 class ContactView(View):
