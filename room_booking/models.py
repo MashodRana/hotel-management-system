@@ -24,7 +24,7 @@ class Booking(models.Model):
     def __str__(self) -> str:
         return self.reservation_number
 
-class BookingHistroy(models.Model):
+class BookingHistory(models.Model):
     reservation_number = models.ForeignKey(Booking, on_delete=models.CASCADE)
     room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
     person = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)

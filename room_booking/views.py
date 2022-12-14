@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 import json
 from datetime import datetime
 
-from room_booking.models import WishList, Booking, BookingHistroy
+from room_booking.models import WishList, Booking, BookingHistory
 from user_profile.models import Person
 from hotel_room.models import Room
 
@@ -98,7 +98,7 @@ class AddBookingView(LoginRequiredMixin, View):
         # Add room objects in the many2many filed of booking.
         for item in items:
             booking.rooms.add(item.room)
-            booking_history = BookingHistroy(
+            booking_history = BookingHistory(
                 reservation_number=booking, 
                 room=item.room,
                 person=person,
