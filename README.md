@@ -8,7 +8,9 @@ A web application to manage a hotel. It contains the following features.
 - Booking rooms
 - Sign up, Sign in, profile update.
 - Booking history.
-Note: this project can extend for further use. The default django admin pannel used to handle all the admin works withe permission
+- 
+**Note:** this project can extend for further use. The default django admin pannel used to handle all the admin works withe permission
+
 ## Used Technology
 
 - Backend: Django
