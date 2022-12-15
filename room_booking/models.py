@@ -24,11 +24,26 @@ class Booking(models.Model):
     def __str__(self) -> str:
         return self.reservation_number
 
+class BookingHistory(models.Model):
+    reservation_number = models.ForeignKey(Booking, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
+    person = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
+    check_in = models.DateField(blank=True, null=True)
+    check_out = models.DateField(blank=True, null=True)
+    room_cleaning = models.BooleanField(default=False)
+    laundry = models.BooleanField(default=False)
+    breakfast = models.BooleanField(default=False)
+    total_price = models.FloatField(default=0)
+
+    def __str__(self):
+        return f"{self.reservation_number}-{self.room.room_number}"
+
+
 class WishList(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='person')
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='room')
-    check_in = models.DateTimeField(blank=True, null=True)
-    check_out = models.DateTimeField(blank=True, null=True)
+    check_in = models.DateField(blank=True, null=True)
+    check_out = models.DateField(blank=True, null=True)
     room_cleaning = models.BooleanField(default=False)
     laundry = models.BooleanField(default=False)
     breakfast = models.BooleanField(default=False)
