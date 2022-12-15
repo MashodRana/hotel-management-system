@@ -2,9 +2,14 @@
 
 A web application to manage a hotel. It contains the following features.
 
+- Search rooms with check in , check out, room type.
+- View all rooms, categorywise
+- Add room to the wishlist
+- Booking rooms
+- Sign up, Sign in, profile update.
+- Booking history.
+Note: this project can extend for further use. The default django admin pannel used to handle all the admin works withe permission
 ## Used Technology
 
-This is a application wrote with python lanuage.
-- Django
-- TailwindCSS
-- Postgesql
+- Backend: Django
+- Frontend: Booststrap
